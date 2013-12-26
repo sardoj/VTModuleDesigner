@@ -4,7 +4,7 @@
 
 <table>
 <tr>
-<td>
+<td colspan="2">
 {vtranslate('LBL_CUSTOM_VALUES_DESCRIPTION', $QUALIFIED_MODULE)}
 </td>
 </tr>

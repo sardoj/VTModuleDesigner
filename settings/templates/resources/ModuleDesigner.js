@@ -4,7 +4,6 @@ var MD_QUALIFIED_MODULE_NAME = 'Settings:ModuleDesigner';
 var modGeneratorUIType =
 	[
 		{num:1, 	label:'Text input',					dbtype:'VARCHAR(128)',	datatype:'V',	mandatory:false},
-		//{num:'1/P',	label:'Password input',				dbtype:'VARCHAR(128)',	datatype:'P',	mandatory:false},
 		{num:2, 	label:'Text input Mandatory',		dbtype:'VARCHAR(128)',	datatype:'V',	mandatory:true},
 		{num:3,		label:'Auto increment',				dbtype:'INT(11)',		datatype:'I',	mandatory:false},
 		{num:4,		label:'Auto number',				dbtype:'VARCHAR(32)',	datatype:'V',	mandatory:false},
