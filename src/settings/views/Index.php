@@ -7,6 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): Jonathan SARDO.
+ * Portions created by Jonathan SARDO are Copyright (C).
  *************************************************************************************/
 
 define("DIR_TEMP", "cache/tempModuleDesigner");

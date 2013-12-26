@@ -7,6 +7,7 @@
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
  * Contributor(s): Jonathan SARDO.
+ * Portions created by Jonathan SARDO are Copyright (C).
  *************************************************************************************/
 
 class Settings_ModuleDesigner_EditCustomLink_View extends Settings_Vtiger_Index_View
