@@ -1,13 +1,11 @@
 <?php
-/***********************************************************************************
+/*+**********************************************************************************
  * The contents of this file are subject to the vtiger CRM Public License Version 1.1
  * ("License"); You may not use this file except in compliance with the License
  * The Original Code is:  vtiger CRM Open Source
  * The Initial Developer of the Original Code is vtiger.
  * Portions created by vtiger are Copyright (C) vtiger.
  * All Rights Reserved.
- * Contributor(s): Jonathan SARDO.
- * Portions created by Jonathan SARDO are Copyright (C).
  ************************************************************************************/
 
 define("DIR_TEMP", "cache/tempModuleDesigner/");
@@ -395,7 +393,16 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Vtige
 					if($uitype["num"] == $o_field->UITypeNum)
 					{
 						$o_field->UITypeName = $uitype["label"];
-						// $o_field->UITypeDBType = $uitype["dbtype"];		//MODIF BY JonathanS 2013-04-17 : Commenté car pose des problèmes pour uitype 7 avec décimal
+						
+						if($o_field->UITypeNum == 7 && $o_field->UITypeDataType != 'I')
+						{
+							$o_field->UITypeDBType = 'DECIMAL(25,3)';
+						}
+						else
+						{
+							$o_field->UITypeDBType = $uitype["dbtype"];
+						}
+						
 						// $o_field->UITypeDataType = $uitype["datatype"];	//MODIF BY JonathanS 2013-04-17 : Commenté car pose des problèmes pour uitype 7 avec décimal
 						break;
 					}

@@ -63,7 +63,6 @@
 <fieldname><?php echo $o_field->fieldName; ?></fieldname>
 <uitype><?php echo $o_field->UITypeNum; ?></uitype>
 <columnname><?php echo $o_field->columnName; ?></columnname>
-<columntype><?php echo $o_field->UITypeDBType; ?></columntype>
 <tablename><?php echo !empty($o_field->tableName) ? $o_field->tableName : 'vtiger_'.$o_module->lowerName; ?></tablename>
 <generatedtype><?php echo $o_field->generatedType; ?></generatedtype>
 <fieldlabel><?php echo $o_field->label; ?></fieldlabel>
