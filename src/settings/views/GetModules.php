@@ -30,7 +30,7 @@ class Settings_ModuleDesigner_GetModules_View extends Settings_Vtiger_Index_View
 				
 		$a_modules = array();
 		
-		$query = "SELECT * FROM vtiger_tab WHERE presence = 0 AND customized = 1 ORDER BY tablabel ASC";
+		$query = "SELECT * FROM vtiger_tab WHERE presence = 0 ORDER BY tablabel ASC";
 		$result = $db->pquery($query, array());
 		while($row = $db->fetchByAssoc($result))
 		{

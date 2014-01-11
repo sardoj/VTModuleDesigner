@@ -5,7 +5,7 @@
 <label>Module Designer</label>
 <parent></parent>
 <type>extension</type>
-<version>0.9</version>
+<version>0.9.1</version>
 <dependencies>
 <vtiger_version>6.0.0</vtiger_version>
 </dependencies>
