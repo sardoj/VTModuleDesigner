@@ -46,7 +46,7 @@
 <?php foreach($o_module->a_blocks as $i_block => $o_block): ?>
 <?php $block_id = str_replace("md-block-", "", $o_block->id); ?>
 <block>
-<label><?php echo $o_block->label; ?></label>
+<label><?php echo str_replace("&", "&amp;", $o_block->label); ?></label>
 <sequence><?php echo $i_block+1; ?></sequence>
 <show_title><?php echo $o_block->showTitle ? 1 : 0; ?></show_title>
 <visible><?php echo $o_block->visible ? 1 : 0; ?></visible>
@@ -65,7 +65,7 @@
 <columnname><?php echo $o_field->columnName; ?></columnname>
 <tablename><?php echo !empty($o_field->tableName) ? $o_field->tableName : 'vtiger_'.$o_module->lowerName; ?></tablename>
 <generatedtype><?php echo $o_field->generatedType; ?></generatedtype>
-<fieldlabel><?php echo $o_field->label; ?></fieldlabel>
+<fieldlabel><?php echo str_replace("&", "&amp;", $o_field->label); ?></fieldlabel>
 <readonly><?php echo $o_field->readOnly ? 2 : 1; ?></readonly>
 <presence>2</presence>
 <defaultvalue><?php echo $o_field->defaultValue; ?></defaultvalue>
