@@ -43,16 +43,24 @@ array('num'=>27, 	'label'=>'File type information',		'dbtype'=>'VARCHAR(128)',	'
 array('num'=>28, 	'label'=>'Filename holder',				'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>30, 	'label'=>'Reminder time',				'dbtype'=>'TIMESTAMP NULL',	'datatype'=>'DT',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>33, 	'label'=>'Pick list multiple',			'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
-array('num'=>51, 	'label'=>'Account',						'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>51, 	'label'=>'Account',						'dbtype'=>'INT(11)',		'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>52, 	'label'=>'Dropdown combo input',		'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>53, 	'label'=>'Dropdown combo radiobutton',	'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>55, 	'label'=>'Salutation and Firstname',	'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>56, 	'label'=>'Boolean',						'dbtype'=>'VARCHAR(5)',		'datatype'=>'C',	'mandatory'=>false,		'two_columns'=>false),
-array('num'=>57, 	'label'=>'Contact',						'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>57, 	'label'=>'Contact',						'dbtype'=>'INT(11)',		'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>69, 	'label'=>'Image',						'dbtype'=>'VARCHAR(256)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
-array('num'=>70, 	'label'=>'Date Time',					'dbtype'=>'DATE',			'datatype'=>'D',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>70, 	'label'=>'Date Time',					'dbtype'=>'DATETIME',		'datatype'=>'D',	'mandatory'=>false,		'two_columns'=>false),
 array('num'=>71, 	'label'=>'Currency',					'dbtype'=>'DECIMAL(25,3)',	'datatype'=>'N',	'mandatory'=>false,		'two_columns'=>false),
-array('num'=>255, 	'label'=>'Salutation auto',				'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false)
+array('num'=>72, 	'label'=>'Amount',						'dbtype'=>'DECIMAL(25,8)',	'datatype'=>'N',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>73, 	'label'=>'Account',						'dbtype'=>'INT(11)',		'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>76, 	'label'=>'Potential',					'dbtype'=>'INT(11)',		'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>77, 	'label'=>'User',						'dbtype'=>'INT(11)',		'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>83, 	'label'=>'Tax',							'dbtype'=>'DECIMAL(7,3)',	'datatype'=>'N',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>117, 	'label'=>'Currency name',				'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
+array('num'=>255, 	'label'=>'Salutation auto',				'dbtype'=>'VARCHAR(128)',	'datatype'=>'V',	'mandatory'=>false,		'two_columns'=>false),
+
+
 );
 
 ?>
