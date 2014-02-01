@@ -75,6 +75,9 @@ $languageStrings = array (
 		'LBL_FIELD_NAME' => 'Nom du champ',
 		'LBL_FIELD_LABEL' => 'Libellé',
 		'LBL_FIELD_LABEL_TRANSLATION' => 'Traduction libellé',
+		'LBL_FIELD_TABLE_NAME' => 'Nom de la table',
+		'LBL_FIELD_COLUMN_NAME' => 'Nom de la colonne',
+		'LBL_FIELD_COLUMN_TYPE' => 'Type de colonne',
 		'LBL_FIELD_NUMERIC_TYPE' => 'Type',
 		'LBL_FIELD_INTEGER' => 'Entier',
 		'LBL_FIELD_DECIMAL' => 'Décimal',
@@ -195,7 +198,8 @@ $jsLanguageStrings = array(
 	'LBL_ERROR_TRY_AGAIN' => 'Une erreur s\'est produite. Merci d\'essayer à nouveau.',
 	'LBL_FILE' => 'Le fichier',
 	'LBL_DOES_NOT_EXIST' => 'n\'existe pas',
-	'LBL_MODULE_FOLDER' => 'Dossier du module'
+	'LBL_MODULE_FOLDER' => 'Dossier du module',
+	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'Vous n\'êtes pas autorisé à modifier ce champ système'
 );
 
 ?>

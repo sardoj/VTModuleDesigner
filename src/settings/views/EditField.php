@@ -64,10 +64,10 @@ class Settings_ModuleDesigner_EditField_View extends Settings_Vtiger_Index_View
 			if(empty($a_field))
 			{
 				$a_field["fieldName"]					= '';
-				$a_field["oldFieldName"]					= '';
+				$a_field["oldFieldName"]				= '';
 				$a_field["label"]						= '';
+				$a_field["tableName"]					= 'vtiger_'.strtolower($request->get('mod'));
 				$a_field["columnName"]					= '';
-				$a_field["tableName"]					= '';
 				$a_field["helpInfoLabel"]				= '';
 				$a_field["defaultValue"]				= '';
 				$a_field["generatedType"]				= null;

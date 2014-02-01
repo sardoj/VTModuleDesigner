@@ -98,7 +98,9 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 
 		$jsFileNames = array(
 				'modules.Settings.'.$moduleName.'.resources.CustomScript',
-				'modules.Settings.'.$moduleName.'.resources.jqueryFancybox'
+				'modules.Settings.'.$moduleName.'.resources.jqueryFancybox',
+				'modules.Settings.'.$moduleName.'.resources.jqueryCaret',
+				'modules.Settings.'.$moduleName.'.resources.jqueryUcfirst'
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);

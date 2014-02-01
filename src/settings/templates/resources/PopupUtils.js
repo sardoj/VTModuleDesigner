@@ -1,5 +1,7 @@
 function md_setLabel(input, labelFieldName, prefix)
 {
+	var cursor_position = $(input).caret();
+	
 	if (!prefix) { prefix = ''; } 
 	
 	var value = $(input).val().toUpperCase().replace(/[^0-9A-Z]/g, '_');
@@ -10,14 +12,31 @@ function md_setLabel(input, labelFieldName, prefix)
 	}
 	
 	$("input[name='"+labelFieldName+"']").val(value);
+	
+	$(input).caret(cursor_position);
 }
 
 function md_setFieldName(input, entityIdentifierFieldName)
 {	
+	var cursor_position = $(input).caret();
+	
 	var value = $(input).val().toLowerCase().replace(/[^0-9a-z]/g, '_');
 	$(input).val(value);
 	
 	$("input[name='"+entityIdentifierFieldName+"']").val(value);
+	
+	$(input).caret(cursor_position);
+}
+
+function md_setColumnName(input, columnNameFieldName)
+{
+	var cursor_position = $(input).caret();
+		
+	var value = $(input).val().toLowerCase().replace(/[^0-9a-zA-Z]/g, '_');
+	
+	$("input[name='"+columnNameFieldName+"']").val(value);
+	
+	$(input).caret(cursor_position);
 }
 
 function md_showOrHidenEntityIdentifierFieldName(cb, entityIdentifierFieldName)

@@ -22,7 +22,7 @@ $languageStrings = array (
 		'LBL_CUSTOM' => 'Custom',
 		'LBL_EXPORT' => 'Export',
 		'LBL_CREATE_AND_INSTALL_PACKAGE' => 'Make and install the module',
-				
+						
 		'LBL_CUSTOM_PARENT_TAB' => '*Custom name*',
 		'LBL_CUSTOM_RELATED_MODULE' => '*Custom name*',
 		'LBL_RELATED_LIST_OTHER_MODULE' => 'Other module',
@@ -75,6 +75,9 @@ $languageStrings = array (
 		'LBL_FIELD_NAME' => 'Field\'s name',
 		'LBL_FIELD_LABEL' => 'Label',
 		'LBL_FIELD_LABEL_TRANSLATION' => 'Label translation',
+		'LBL_FIELD_TABLE_NAME' => 'Table name',
+		'LBL_FIELD_COLUMN_NAME' => 'Column name',
+		'LBL_FIELD_COLUMN_TYPE' => 'Column type',
 		'LBL_FIELD_NUMERIC_TYPE' => 'Type',
 		'LBL_FIELD_INTEGER' => 'Integer',
 		'LBL_FIELD_DECIMAL' => 'Decimal',
@@ -186,7 +189,8 @@ $jsLanguageStrings = array(
 	'LBL_ERROR_TRY_AGAIN' => 'An error occured. Please try again.',
 	'LBL_FILE' => 'The file',
 	'LBL_DOES_NOT_EXIST' => 'does not exist',
-	'LBL_MODULE_FOLDER' => 'Module\'s directory'
+	'LBL_MODULE_FOLDER' => 'Module\'s directory',
+	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'You are not allowed to edit this system field'
 );
 
 ?>

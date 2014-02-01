@@ -13,6 +13,8 @@
 	<li>{vtranslate('DETAILVIEW', $QUALIFIED_MODULE)}</li>
 	<li>{vtranslate('DETAILVIEWBASIC', $QUALIFIED_MODULE)}</li>
 	<li>{vtranslate('DETAILVIEWWIDGET', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('SIDEBARLINK', $QUALIFIED_MODULE)}</li>
+	<li>{vtranslate('SIDEBARWIDGET', $QUALIFIED_MODULE)}</li>
 	</ul>
 </div>
 </td>

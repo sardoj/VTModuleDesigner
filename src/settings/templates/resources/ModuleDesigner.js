@@ -408,7 +408,10 @@ $(document).ready
 			closeEffect	: 'none'
 		});
 
-		//Create a block
+		//Create the General information block
+		md_addBlock();
+		
+		//Create the System information block
 		md_addBlock();
 		
 		//Create filter
@@ -421,13 +424,13 @@ $(document).ready
 
 function md_createMandatoryFields()
 {
-	blockEdited = $("#md-block-0 ul.md-fields-ul");
+	blockEdited = $("#md-block-1 ul.md-fields-ul");
 	blockEditedId = 0;
 	
 
 	//Assigned To
 	var o_field = new Object();
-	o_field.id							= 'md-field-0-0';
+	o_field.id							= 'md-field-1-0';
 	o_field.index						= 1;
 	o_field.UITypeNum					= 53;
 	o_field.UITypeName					= 'Dropdown combo radiobutton';
@@ -457,7 +460,7 @@ function md_createMandatoryFields()
 
 	 //Assigned To
 	var o_field = new Object();
-	o_field.id							= 'md-field-0-1';
+	o_field.id							= 'md-field-1-1';
 	o_field.index						= 2;
 	o_field.UITypeNum					= 70;
 	o_field.UITypeName					= 'Date time';
@@ -487,7 +490,7 @@ function md_createMandatoryFields()
 
 	//Modified Time
 	var o_field = new Object();
-	o_field.id							= 'md-field-0-2';
+	o_field.id							= 'md-field-1-2';
 	o_field.index						= 3;
 	o_field.UITypeNum					= 19;
 	o_field.UITypeName					= 'Date time';
@@ -514,6 +517,17 @@ function md_createMandatoryFields()
 	o_field.relatedModule				= null;
 	o_field.pickListValues				= null;
 	md_addField(o_field, true);
+}
+
+function md_setModuleName(input)
+{	
+	var cursor_position = $(input).caret();
+	
+	var value = $(input).val().replace(/[^0-9a-zA-Z]/g, '');
+	$(input).val($.ucfirst(value));
+	
+		
+	$(input).caret(cursor_position);
 }
 
 function md_updateFieldsTableName(ti)
@@ -764,9 +778,9 @@ function md_addBlock(o_block, isImporting)
 		
 		switch(a_blocks.length)
 		{
-			case 0:  o_block.label = 'LBL_BLOCK_SYSTEM_INFORMATION';
+			case 0:  o_block.label = 'LBL_BLOCK_GENERAL_INFORMATION';
 				break;
-			case 1:  o_block.label = 'LBL_BLOCK_GENERAL_INFORMATION';
+			case 1:  o_block.label = 'LBL_BLOCK_SYSTEM_INFORMATION';
 				break;
 			default: o_block.label = 'LBL_BLOCK_'+a_blocks.length;
 				break;
@@ -971,11 +985,21 @@ function md_addField(o_field, isImporting)
 
 	var a_field_id_data = o_field.id.split("-");
 	updateBlockMaxFieldId("md-block-"+a_field_id_data[2]);
+	
+	//Disallow edition of system fields
+	if(o_field.fieldName == 'assigned_user_id' || o_field.fieldName == 'createdtime' || o_field.fieldName == 'modifiedtime' || o_field.fieldName == 'modifiedby')
+	{
+		o_field.MDEditable = false;
+	}
+	else
+	{
+		o_field.MDEditable = true;
+	}
 
 	//Add field in block graphicly
 	var li_class = o_field.twoColumns ? 'md-field two_columns' : 'md-field';
 	
-	row = '<li id="'+o_field.id+'" class="'+li_class+'">';
+	row = '<li id="'+o_field.id+'" class="'+li_class+'" md-editable="'+o_field.MDEditable+'">';
 	row += '<div class="md-field-details">';
 	row += '<span>'+o_field.fieldName+'<span><br />';
 	row += '<span class="md-field-type">'+o_field.UITypeNum+' - '+o_field.UITypeName+'</span>';
@@ -1026,16 +1050,23 @@ function md_addField(o_field, isImporting)
 	(
 		function()
 		{
-			o_field = getFieldData($(this).attr("id"));
-
-			var a_fieldId = o_field.id.split("-");
-			var blockNum = a_fieldId[2];
-
-			blockEdited = $("#md-block-"+blockNum+" ul");
-
-			var editedModuleName = jmd_container.find("input[name='module_name']").val();
-
-			md_openPopup("index.php?module="+MD_MODULE_NAME+"&view=EditField&mod="+editedModuleName+"&field="+escape(JSON.stringify(o_field)));
+			if($(this).attr("md-editable") == 'true')
+			{
+				o_field = getFieldData($(this).attr("id"));
+	
+				var a_fieldId = o_field.id.split("-");
+				var blockNum = a_fieldId[2];
+	
+				blockEdited = $("#md-block-"+blockNum+" ul");
+	
+				var editedModuleName = jmd_container.find("input[name='module_name']").val();
+	
+				md_openPopup("index.php?module="+MD_MODULE_NAME+"&view=EditField&mod="+editedModuleName+"&field="+escape(JSON.stringify(o_field)));
+			}
+			else
+			{
+				alert(app.vtranslate('LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD', MD_MODULE_NAME));
+			}
 		}
 	);
 

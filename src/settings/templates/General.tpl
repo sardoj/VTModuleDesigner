@@ -31,7 +31,7 @@
 <tr>
 	<td>{vtranslate('LBL_SYSTEM_MODULE_NAME', $QUALIFIED_MODULE)}</td>
 	<td>
-		<input type="text" name="module_name" class="md-medium-text-input" maxlength="25" onfocusout="md_updateFieldsTableName(this)" />
+		<input type="text" name="module_name" class="md-medium-text-input" maxlength="25" onkeyup="md_setModuleName(this)" onfocusout="md_updateFieldsTableName(this)" />
 		<input type="hidden" name="old_module_table_name" />
 	</td>
 	<td>

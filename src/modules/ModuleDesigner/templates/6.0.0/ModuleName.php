@@ -76,7 +76,8 @@ class ModuleName extends Vtiger_CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
  		if($eventType == 'module.postinstall') {
-			// TODO Handle actions after this module is installed.
+			//Delete duplicates from all picklist
+			static::deleteDuplicatesFromAllPickLists($moduleName);
 		} else if($eventType == 'module.disabled') {
 			// TODO Handle actions before this module is being uninstalled.
 		} else if($eventType == 'module.preuninstall') {
@@ -84,7 +85,61 @@ class ModuleName extends Vtiger_CRMEntity {
 		} else if($eventType == 'module.preupdate') {
 			// TODO Handle actions before this module is updated.
 		} else if($eventType == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+			//Delete duplicates from all picklist
+			static::deleteDuplicatesFromAllPickLists($moduleName);
 		}
  	}
+	
+	/**
+	 * Delete doubloons from all pick list from module
+	 */
+	public static function deleteDuplicatesFromAllPickLists($moduleName)
+	{
+		global $adb,$log;
+
+		$log->debug("Invoking deleteDuplicatesFromAllPickList(".$moduleName.") method ...START");
+
+		//Deleting doubloons
+		$query = "SELECT columnname FROM `vtiger_field` WHERE uitype in (15,16,33) "
+				. "and tabid in (select tabid from vtiger_tab where name = '$moduleName')";
+		$result = $adb->pquery($query, array());
+
+		$a_picklists = array();
+		while($row = $adb->fetchByAssoc($result))
+		{
+			$a_picklists[] = $row["columnname"];
+		}
+		
+		foreach ($a_picklists as $picklist)
+		{
+			static::deleteDuplicatesFromPickList($picklist);
+		}
+		
+		$log->debug("Invoking deleteDuplicatesFromAllPickList(".$moduleName.") method ...DONE");
+	}
+	
+	public static function deleteDuplicatesFromPickList($pickListName)
+	{
+		global $adb,$log;
+		
+		$log->debug("Invoking deleteDuplicatesFromPickList(".$pickListName.") method ...START");
+	
+		//Deleting doubloons
+		$query = "SELECT {$pickListName}id FROM vtiger_{$pickListName} GROUP BY {$pickListName}";
+		$result = $adb->pquery($query, array());
+	
+		$a_uniqueIds = array();
+		while($row = $adb->fetchByAssoc($result))
+		{
+			$a_uniqueIds[] = $row[$pickListName.'id'];
+		}
+	
+		if(!empty($a_uniqueIds))
+		{
+			$query = "DELETE FROM vtiger_{$pickListName} WHERE {$pickListName}id NOT IN (".implode(",", $a_uniqueIds).")";
+			$adb->pquery($query, array());
+		}
+		
+		$log->debug("Invoking deleteDuplicatesFromPickList(".$pickListName.") method ...DONE");
+	}
 }

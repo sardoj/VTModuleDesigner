@@ -1,11 +1,11 @@
 <?xml version='1.0'?>
 <module>
-<exporttime>2013-11-26 07:43:16</exporttime>
+<exporttime>2014-02-01 11:57:22</exporttime>
 <name>ModuleDesigner</name>
 <label>Module Designer</label>
 <parent></parent>
 <type>extension</type>
-<version>0.9.2</version>
+<version>1.0b1</version>
 <dependencies>
 <vtiger_version>6.0.0</vtiger_version>
 </dependencies>

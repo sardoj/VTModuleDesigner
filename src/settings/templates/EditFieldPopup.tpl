@@ -3,6 +3,7 @@
 <head>
 <script type="text/javascript" src="layouts/vlayout/modules/Settings/{$MODULE}/resources/PopupUtils.js"></script>
 <script type="text/javascript" src="libraries/jquery/jquery.min.js"></script>
+<script type="text/javascript" src="layouts/vlayout/modules/Settings/{$MODULE}/resources/jqueryCaret.js"></script>
 </head>
 
 <body>
@@ -16,11 +17,23 @@
 </tr>
 <tr>
 	<td>{vtranslate("LBL_FIELD_NAME", $QUALIFIED_MODULE)}</td>
-	<td colspan="2"><input type="text" name="field_name" size="25" maxlength="25" value="{$a_field.fieldName}" onkeyup=" md_setFieldName(this, 'entity_identifier_fieldname'); md_setLabel(this, 'label', 'LBL_')"/></td>
+	<td colspan="2"><input type="text" name="field_name" size="25" maxlength="25" value="{$a_field.fieldName}" onkeyup=" md_setFieldName(this, 'entity_identifier_fieldname'); md_setLabel(this, 'label', 'LBL_'); md_setColumnName(this, 'column_name', 'LBL_')"/></td>
 </tr>
 <tr>
 	<td>{vtranslate("LBL_FIELD_LABEL", $QUALIFIED_MODULE)}</td>
 	<td colspan="2"><input type="text" name="label" size="50" value="{$a_field.label}" /></td>
+</tr>
+<tr>
+	<td>{vtranslate("LBL_FIELD_TABLE_NAME", $QUALIFIED_MODULE)}</td>
+	<td colspan="2"><input type="text" name="table_name" size="50" value="{$a_field.tableName}" /></td>
+</tr>
+<tr>
+	<td>{vtranslate("LBL_FIELD_COLUMN_NAME", $QUALIFIED_MODULE)}</td>
+	<td colspan="2"><input type="text" name="column_name" size="50" value="{$a_field.columnName}" /></td>
+</tr>
+<tr>
+	<td>{vtranslate("LBL_FIELD_COLUMN_TYPE", $QUALIFIED_MODULE)}</td>
+	<td colspan="2"><input type="text" name="column_type" size="50" value="{$a_field.UITypeDBType}" /></td>
 </tr>
 {foreach item=language from=$a_languages}
 {assign var=label value='label_'|cat:$language}
@@ -199,14 +212,14 @@ function md_popupSave()
 	o_data.index						= {if !empty($a_field.index)}{$a_field.index}{else}undefined{/if};
 	o_data.UITypeNum					= {$a_field.UITypeNum};
 	o_data.UITypeName					= '{addslashes($a_field.UITypeName)}';
-	o_data.UITypeDBType					= o_data.UITypeNum == 7 && $("input[name='numeric_type']:checked").val() != 'I' ? 'DECIMAL(25,3)' : '{addslashes($a_field.UITypeDBType)}';
+	o_data.UITypeDBType					= o_data.UITypeNum == 7 && $("input[name='numeric_type']:checked").val() != 'I' ? 'DECIMAL(25,3)' : $("input[name='column_type']").val();
 	o_data.UITypeDataType				= o_data.UITypeNum == 7 ? $("input[name='numeric_type']:checked").val() : '{addslashes($a_field.UITypeDataType)}';
 	o_data.twoColumns					= {if $a_field.twoColumns}true{else}false{/if};
 	o_data.fieldName					= $("input[name='field_name']").val();
 	o_data.oldFieldName					= '{addslashes($a_field.fieldName)}';
 	o_data.label						= $("input[name='label']").val();
-	o_data.columnName					= o_data.fieldName; //TODO: Possibility to chose column name
-	o_data.tableName					= '{if !empty($a_field.tableName)}{strtolower($a_field.tableName)}{else}vtiger_{strtolower($moduleName)}{/if}'; //TODO: Possibility to chose table name
+	o_data.columnName					= $("input[name='column_name']").val();
+	o_data.tableName					= $("input[name='table_name']").val();
 	o_data.helpInfoLabel				= $("input[name='help_info_label']").val() != 'LBL_' ? $("input[name='help_info_label']").val() : '';
 	o_data.defaultValue					= o_data.UITypeNum != 5 && o_data.UITypeNum != 6 && o_data.UITypeNum != 23 ? $("input[name='default_value']").val() : '';
 	o_data.generatedType				= o_data.UITypeNum == 5 || o_data.UITypeNum == 6 || o_data.UITypeNum == 23 ? $("input[name='generated_type']:checked").val() : 1;
