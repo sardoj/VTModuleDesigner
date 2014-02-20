@@ -1,6 +1,10 @@
 VTModuleDesigner
 ================
 
+****************************************************************
+WARNING : VTModuleDesigner does not work with magic_quotes_gpc()
+****************************************************************
+
 Module Designer for Vtiger 6
 
 You can set your own fields and variables. To do this modify these files:
