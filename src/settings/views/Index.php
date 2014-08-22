@@ -132,4 +132,9 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 	    return $dir != DIR_TEMP ? rmdir($dir) : false; 
 	}
 
+	function getPageTitle(Vtiger_Request $request) {
+		$qualifiedModuleName = $request->getModule(false);
+		return vtranslate('LBL_MODULEDESIGNER',$qualifiedModuleName);
+	}
+
 }
