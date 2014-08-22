@@ -107,7 +107,8 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 		}
 		else
 		{
-			$o_module = json_decode($_POST["structure"]);
+			$structure = stripslashes($_POST['structure']);
+			$o_module = json_decode($structure);
 		}
 		
 		$o_module->lowerName = strtolower($o_module->name);
