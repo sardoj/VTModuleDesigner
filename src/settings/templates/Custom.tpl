@@ -1,4 +1,4 @@
-<script type="text/javascript" src="modules/Settings/{$MODULE}/js/CustomScript.js"></script>
+<script type="text/javascript" src="layouts/vlayout/modules/Settings/{$MODULE}/resources/CustomScript.js"></script>
 
 <h2>{vtranslate('LBL_CUSTOM_VALUES', $QUALIFIED_MODULE)}</h2>
 

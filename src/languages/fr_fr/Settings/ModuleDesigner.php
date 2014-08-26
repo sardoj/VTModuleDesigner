@@ -183,7 +183,7 @@ $languageStrings = array (
 		'LBL_MY_VARIABLE' => 'Ma variable',
 		'LBL_MY_VALUE' => 'Ma valeur',
 		'LBL_CUSTOM_VALUES_DESCRIPTION' => 'Vous pouvez configurer vos propres champs et variables. Pour faire cela, modifiez les fichiers suivants : <ul><li>/vlayouts/layout/Settings/ModuleDesigner/Custom.tpl</li>'.
-											'<li>/vlayouts/layout/Settings/ModuleDesigner/resources/CustomScript.js</li>'.
+											'<li>/layouts/vlayout/Settings/ModuleDesigner/resources/CustomScript.js</li>'.
 											'<li>/modules/ModuleDesigner/CustomManifestStructure.php</li></ul>'.
 											'Vous pouvez aussi créer des plugins pour traiter vos variables, dans le répertoire /modules/ModuleDesigner/plugins'
 );
