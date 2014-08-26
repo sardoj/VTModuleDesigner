@@ -1703,6 +1703,21 @@ function md_makePackage(installModule)
 		}
 	);
 
+	//Check if some filter have empty field
+    var error_fields = false;
+    
+    $.each(a_filters, function( index, object ) {
+        (object.a_fields.length === 0)
+            error_fields = true;
+      });
+      
+    if(error_fields)
+    {
+        alert(app.vtranslate('LBL_EMPTY_FIELD_FILTER', MD_QUALIFIED_MODULE_NAME));
+        $("#md-tab-filters").click();
+        return false;
+    }
+
 	md_setAllSequences();
 
 	var a_postData = {
