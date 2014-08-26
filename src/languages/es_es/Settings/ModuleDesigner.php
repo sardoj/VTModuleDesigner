@@ -190,7 +190,8 @@ $jsLanguageStrings = array(
 	'LBL_FILE' => 'El archivo',
 	'LBL_DOES_NOT_EXIST' => 'no existe',
 	'LBL_MODULE_FOLDER' => 'Directorio de Módulo',
-	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'No está permitido editar este campo de sistema.'
+	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'No está permitido editar este campo de sistema.',
+	'LBL_EMPTY_FIELD_FILTER' => 'Error, los Filtros no pueden estar vacíos.'
 );
 
 ?>
