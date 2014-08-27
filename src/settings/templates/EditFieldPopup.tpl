@@ -264,7 +264,9 @@ else if(o_data.isEntityIdentifier && o_data.entityIdentifierFieldName == '')
 	else if(o_data.helpInfoLabel != '' && o_data.helpInfoLabel_{$language}  == '')
 		field = '{addslashes(vtranslate('LBL_FIELD_HELP_INFO_LABEL_TRANSLATION', $QUALIFIED_MODULE))} {$language}';
 {/foreach}
-	else
+	else if((o_data.UITypeNum == 15 || o_data.UITypeNum == 16 || o_data.UITypeNum == 33) && (o_data.pickListValues == ''))
+                field = '{addslashes(vtranslate('LBL_OPTIONS', $QUALIFIED_MODULE))}';
+    else
 		valid = true;
 
 	if(!valid)
