@@ -1707,7 +1707,7 @@ function md_makePackage(installModule)
     var error_fields = false;
     
     $.each(a_filters, function( index, object ) {
-        (object.a_fields.length === 0)
+        if(object.a_fields.length === 0)
             error_fields = true;
       });
       
