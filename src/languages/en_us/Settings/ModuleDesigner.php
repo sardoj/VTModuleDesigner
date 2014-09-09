@@ -191,7 +191,8 @@ $jsLanguageStrings = array(
 	'LBL_DOES_NOT_EXIST' => 'does not exist',
 	'LBL_MODULE_FOLDER' => 'Module\'s directory',
 	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'You are not allowed to edit this system field',
-	'LBL_EMPTY_FIELD_FILTER' => 'Error, Filters cannot have empty fields.'
+	'LBL_EMPTY_FIELD_FILTER' => 'Error, Filters cannot have empty fields.',
+	'LBL_CANNOT_EDIT_REMOVE_FIELD' => 'You cannot edit/remove a non-editable field',
 );
 
 ?>
