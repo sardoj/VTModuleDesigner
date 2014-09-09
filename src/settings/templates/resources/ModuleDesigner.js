@@ -553,6 +553,13 @@ function md_dropToTrash(ui)
 {
 	var className = $(ui.draggable).attr("class");
 	var id = $(ui.draggable).attr("id");
+	var editable = $(ui.draggable).attr("md-editable");
+        
+    if(editable !== 'true')
+    {
+        alert(app.vtranslate('LBL_CANNOT_EDIT_REMOVE_FIELD', MD_QUALIFIED_MODULE_NAME));
+        return;
+    }
 
 	var a_array;
 
