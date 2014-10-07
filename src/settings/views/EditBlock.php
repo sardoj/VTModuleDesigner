@@ -22,7 +22,9 @@ class Settings_ModuleDesigner_EditBlock_View extends Settings_Vtiger_Index_View
 	}
 
 	public function process(Vtiger_Request $request)
-	{		
+	{	
+		$GLOBALS['csrf']['frame-breaker'] = false;
+		
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
