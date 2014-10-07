@@ -22,6 +22,8 @@ class Settings_ModuleDesigner_UploadModule_View extends Settings_Vtiger_Index_Vi
 
 	public function process(Vtiger_Request $request)
 	{
+		$GLOBALS['csrf']['frame-breaker'] = false;
+		
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
