@@ -1743,19 +1743,38 @@ function md_makePackage(installModule)
 		}
 	);
 
-	//Check if some filter have empty field
-    var error_fields = false;
-    
-    $.each(a_filters, function( index, object ) {
-        if(object.a_fields.length === 0)
-            error_fields = true;
-      });
-      
-    if(error_fields)
+	//Some checks for Module 6.0.0 -- TODO: Check if necessary for extension?
+    if(md_moduleManifestTemplate === 'module.xml.php' && md_moduleDirectoryTemplate === '6.0.0')
     {
-        alert(app.vtranslate('LBL_EMPTY_FIELD_FILTER', MD_QUALIFIED_MODULE_NAME));
-        $("#md-tab-filters").click();
-        return false;
+    	//Check if there is an entity field
+        var errorEntity = true;
+
+        $.each(a_fields, function( index, object ) {
+            if(object.isEntityIdentifier === true)
+                errorEntity = false;
+        });
+
+        if(errorEntity === true)
+        {
+            alert(app.vtranslate('LBL_MANDATORY_ENTITYFIELD', MD_QUALIFIED_MODULE_NAME));
+            $("#md-tab-blocks-fields").click();
+            return false;
+        }
+        
+        //Check if some filter have empty field
+        var error_filters = false;
+
+        $.each(a_filters, function( index, object ) {
+            if(object.a_fields.length === 0)
+                error_filters = true;
+          });
+
+        if(error_filters)
+        {
+            alert(app.vtranslate('LBL_EMPTY_FIELD_FILTER', MD_QUALIFIED_MODULE_NAME));
+            $("#md-tab-filters").click();
+            return false;
+        }
     }
 
 	md_setAllSequences();

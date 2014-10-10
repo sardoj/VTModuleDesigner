@@ -193,6 +193,7 @@ $jsLanguageStrings = array(
 	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'You are not allowed to edit this system field',
 	'LBL_EMPTY_FIELD_FILTER' => 'Error, Filters cannot have empty fields.',
 	'LBL_CANNOT_EDIT_REMOVE_FIELD' => 'You cannot edit/remove a non-editable field',
+	'LBL_MANDATORY_ENTITYFIELD' => 'An Identifier field is required.',
 );
 
 ?>
