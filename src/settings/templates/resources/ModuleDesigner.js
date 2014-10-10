@@ -554,12 +554,7 @@ function md_dropToTrash(ui)
 	var className = $(ui.draggable).attr("class");
 	var id = $(ui.draggable).attr("id");
 	var editable = $(ui.draggable).attr("md-editable");
-        
-    if(editable !== 'true')
-    {
-        alert(app.vtranslate('LBL_CANNOT_EDIT_REMOVE_FIELD', MD_QUALIFIED_MODULE_NAME));
-        return;
-    }
+	var error = false;
 
 	var a_array;
 
@@ -609,12 +604,28 @@ function md_dropToTrash(ui)
 				//If it is a block, we have to delete block's fields
 				if(className.search("md-block") > -1)
 				{
+					//First, we search if some field are not editable
+					if(md_checkEditableFieldsInBlock(id) === false)
+					{
+						error = true;
+						break;
+					}
+
 					md_deleteFieldsInBlock(id);
 
 					jmd_container.find(".md-fields-ul").droppable("enable"); //We have to enable blocks droppable because it was deleted when sort started. See $("#md-blocks-ul").sortable() function
 				}
 				else if(className.search("md-field") > -1)
 				{
+					//First, we check if field is editable
+					var editable = $("#"+a_array[i].id).attr("md-editable");
+					if(editable !== 'true')
+					{
+						alert(app.vtranslate('LBL_CANNOT_EDIT_REMOVE_FIELD', MD_QUALIFIED_MODULE_NAME));
+						error = true;
+
+						break;
+					}
 					//Delete filter fields from toolbar
 					var a_filterFieldsDraggable = $("#md-filter-fields-list").children();
 					for(var j=0; j<a_filterFieldsDraggable.length; j++)
@@ -643,17 +654,20 @@ function md_dropToTrash(ui)
 		}
 	}
 
-	//Remove html element
-	jmd_container.find("#"+id).remove();
-	
-	/*if(jmd_container.find(".ui-sortable-placeholder").length > 0)
+	if(error === false)
 	{
-		jmd_container.find(".ui-sortable-placeholder").remove();
-	}*/
+		//Remove html element
+		jmd_container.find("#"+id).remove();
+		
+		/*if(jmd_container.find(".ui-sortable-placeholder").length > 0)
+		{
+			jmd_container.find(".ui-sortable-placeholder").remove();
+		}*/
 
-	 if(className.search("md-filter-field") > -1)
-	{
-		filter_fields_ul_droppable = true;
+		 if(className.search("md-filter-field") > -1)
+		{
+			filter_fields_ul_droppable = true;
+		}
 	}
 }
 
@@ -677,6 +691,25 @@ function md_deleteFieldsInBlock(block_id)
 	);
 
 	a_fields = a_newFields;
+}
+
+function md_checkEditableFieldsInBlock(block_id)
+{        
+	found = true;
+
+	$("#"+block_id+" li").each(function() {
+		var editable = $(this).attr("md-editable");
+
+		if(editable !== 'true')
+		{
+			alert(app.vtranslate('LBL_CANNOT_BLOCK_REMOVE_FIELD', MD_QUALIFIED_MODULE_NAME));
+			found = false;
+			
+			return false;
+		}
+	});
+
+	return found;
 }
 
 function md_openPopup(url)
