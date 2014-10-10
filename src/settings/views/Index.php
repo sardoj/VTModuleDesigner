@@ -41,7 +41,23 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		$a_parent_tabs = array();
 		while($row = $db->fetchByAssoc($result))
 		{
-			$a_parent_tabs[] = $row;
+	        switch($row['parenttab_label'])
+	        {
+	            case 'Sales': case 'Marketing':
+	                $row['parenttab_label_string'] = 'MARKETING_AND_SALES';
+	            break;
+	            case 'My Home Page':
+	                $row['parenttab_label_string'] = 'MY_HOME_PAGE';
+	            break;
+	            case 'Settings':
+	                $row['parenttab_label_string'] = 'SETTINGS_TITLE';
+	            break;
+	            default:
+	                $row['parenttab_label_string'] = strtoupper($row['parenttab_label']);
+	            break;
+	        }
+
+	        $a_parent_tabs[] = $row;
 		}
 		
 		//Get modules
