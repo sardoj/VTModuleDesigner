@@ -150,6 +150,12 @@ class Vtiger_PackageExport {
 
 		//Copy language files
 		$this->__copyLanguageFiles($zip, $module);
+		
+		//Copy image file
+		if(file_exists("layouts/vlayout/skins/images/$module.png"))
+		{
+			$zip->copyFileFromDisk("layouts/vlayout/skins/images", "", "$module.png");
+		}
 
 		$zip->save();
 
