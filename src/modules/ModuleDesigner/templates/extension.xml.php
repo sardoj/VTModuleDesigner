@@ -22,7 +22,7 @@
 <type>extension</type>
 <version><?php echo $o_module->version; ?></version>
 <dependencies>
-<vtiger_version>6.0.0</vtiger_version>
+<vtiger_version>6.1.0</vtiger_version>
 </dependencies>
 <?php if(count($o_module->a_customLinks) > 0): ?>
 <customlinks>
