@@ -21,7 +21,7 @@
 <parent><?php echo $o_module->parentTab; ?></parent>
 <version><?php echo $o_module->version; ?></version>
 <dependencies>
-<vtiger_version>6.0.0</vtiger_version>
+<vtiger_version>6.1.0</vtiger_version>
 </dependencies>
 <tables>
 <table>
