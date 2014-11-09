@@ -46,7 +46,7 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
             $unzip->unzipAllEx( ".",
                     Array(
                     'include' => Array('templates', "modules/$module", 'cron', 'languages',
-						'settings/actions', 'settings/views', 'settings/models', 'settings/templates'),
+						'settings/actions', 'settings/views', 'settings/models', 'settings/templates', 'settings/connectors', 'settings/libraries'),
 					// DEFAULT: excludes all not in include
                     ),
 
@@ -60,11 +60,14 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
 						'settings/actions' => "modules/Settings/$module/actions",
 						'settings/views' => "modules/Settings/$module/views",
 						'settings/models' => "modules/Settings/$module/models",
+                                                'settings/connectors' => "modules/Settings/$module/connectors",
+                                                'settings/libraries' => "modules/Settings/$module/libraries",
 
 						// Settings templates folder
-						'settings/templates' => "layouts/vlayout/modules/Settings/$module"
-				)
-			);
+						'settings/templates' => "layouts/vlayout/modules/Settings/$module",
+                                                'settings' => "modules/Settings",
+                    )   
+            );
 
             // If data is not yet available
             if(empty($this->_modulexml)) {
@@ -350,8 +353,8 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
 		}
     	
     	if(!empty($fieldnode->helpinfo)) $fieldInstance->setHelpInfo($fieldnode->helpinfo);
-    	
-    	if(!empty($fieldnode->masseditable)) $fieldInstance->setMassEditable($fieldnode->masseditable);
+        if(!empty($fieldnode->masseditable)) $fieldInstance->setMassEditable($fieldnode->masseditable);
+        if(!empty($fieldnode->summaryfield)) $fieldInstance->setSummaryField($fieldnode->summaryfield); 
     	
     	
     	$fieldInstance->block = $blockInstance;
@@ -417,8 +420,8 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
      */
     function update_CustomView($modulenode, $moduleInstance, $customviewnode, $filterInstance) {
         // TODO Handle filter property update
-        $filterInstance->delete();
-    	return $this->import_CustomView($modulenode, $moduleInstance, $customviewnode);
+        $filterInstance->delete(); 
+        $filterInstance = $this->import_CustomView($modulenode, $moduleInstance, $customviewnode); 
     }
 
     /**
@@ -528,8 +531,10 @@ class Vtiger_PackageUpdate extends Vtiger_PackageImport {
 				}
 			}
 			if(empty($importCronTask->status)){
-				$importCronTask->status=Vtiger_Cron::$STATUS_ENABLED;
-			}
+                            $cronTask->status = Vtiger_Cron::$STATUS_DISABLED;
+                        } else {
+                            $cronTask->status = Vtiger_Cron::$STATUS_ENABLED;
+                        } 
 			if((empty($importCronTask->sequence))){
 				$importCronTask->sequence=Vtiger_Cron::nextSequence();
 			}

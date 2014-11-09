@@ -150,6 +150,12 @@ class Vtiger_PackageExport {
 
 		//Copy language files
 		$this->__copyLanguageFiles($zip, $module);
+		
+		//Copy image file
+		if(file_exists("layouts/vlayout/skins/images/$module.png"))
+		{
+			$zip->copyFileFromDisk("layouts/vlayout/skins/images", "", "$module.png");
+		}
 
 		$zip->save();
 
@@ -449,11 +455,12 @@ class Vtiger_PackageExport {
 			if(isset($fieldresultrow['masseditable'])) {
 				$this->outputNode($fieldresultrow['masseditable'], 'masseditable');
 			}
-
+                        if(isset($fieldresultrow['summaryfield'])){
+                            $this->outputNode($fieldresultrow['summaryfield'],'summaryfield');
+                        }
 			// Export Entity Identifier Information
 			if($fieldname == $entity_fieldname) {
 				$this->openNode('entityidentifier');
-				$this->outputNode($adb->query_result($entityresult, 0, 'fieldname'),    'fieldname');				
 				$this->outputNode($adb->query_result($entityresult, 0, 'entityidfield'),    'entityidfield');
 				$this->outputNode($adb->query_result($entityresult, 0, 'entityidcolumn'), 'entityidcolumn');
 				$this->closeNode('entityidentifier');
@@ -500,7 +507,7 @@ class Vtiger_PackageExport {
 	function export_CustomViews($moduleInstance) {
 		global $adb;
 
-		$customviewres = $adb->pquery("SELECT * FROM vtiger_customview WHERE viewname = ? and entitytype = ?", Array('All', $moduleInstance->name));
+		$customviewres = $adb->pquery("SELECT * FROM vtiger_customview WHERE entitytype = ?", Array($moduleInstance->name));
 		$customviewcount=$adb->num_rows($customviewres);
 
 		if(empty($customviewcount)) return;

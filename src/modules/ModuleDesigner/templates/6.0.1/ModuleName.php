@@ -82,6 +82,9 @@ class ModuleName extends Vtiger_CRMEntity {
 	*/
 	function vtlib_handler($moduleName, $eventType) {
  		if($eventType == 'module.postinstall') {
+ 			//Enable ModTracker for the module
+ 			static::enableModTracker($moduleName);
+			
 			//Delete duplicates from all picklist
 			static::deleteDuplicatesFromAllPickLists($moduleName);
 		} else if($eventType == 'module.disabled') {
@@ -95,6 +98,19 @@ class ModuleName extends Vtiger_CRMEntity {
 			static::deleteDuplicatesFromAllPickLists($moduleName);
 		}
  	}
+	
+	/**
+	 * Enable ModTracker for the module
+	 */
+	public static function enableModTracker($moduleName)
+	{
+		include_once 'vtlib/Vtiger/Module.php';
+		include_once 'modules/ModTracker/ModTracker.php';
+			
+		//Enable ModTracker for the module
+		$moduleInstance = Vtiger_Module::getInstance($moduleName);
+		ModTracker::enableTrackingForModule($moduleInstance->getId());
+	}
 	
 	/**
 	 * Delete doubloons from all pick list from module
