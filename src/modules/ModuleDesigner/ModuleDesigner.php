@@ -34,9 +34,9 @@ class ModuleDesigner
 			
 			//Add link to the module in the Setting Panel
 			$fieldid = $adb->getUniqueID('vtiger_settings_field');
-			$blockid = getSettingsBlockId('LBL_MODULE_MANAGER');
+			$blockid = getSettingsBlockId('LBL_STUDIO');
 			
-			$seq_res = $adb->query("SELECT max(sequence) AS max_seq FROM vtiger_settings_field WHERE blockid =1");
+			$seq_res = $adb->query("SELECT max(sequence) AS max_seq FROM vtiger_settings_field WHERE blockid=$blockid");
 			$seq = 1;
 			if ($adb->num_rows($seq_res) > 0)
 			{
@@ -54,7 +54,7 @@ class ModuleDesigner
 				array
 				(
 					$fieldid,
-					3,
+					$blockid,
 					$module_name,
 					'layouts/vlayout/modules/Settings/'.$module_name.'/assets/images/'.$module_name.'.png',
 					'LBL_'.strtoupper($module_name).'_DESCRIPTION',
@@ -87,7 +87,7 @@ class ModuleDesigner
 			
 			if($adb->num_rows($result) == 0)
 			{			
-				$seq_res = $adb->query("SELECT max(sequence) AS max_seq FROM vtiger_settings_field WHERE blockid =1");
+				$seq_res = $adb->query("SELECT max(sequence) AS max_seq FROM vtiger_settings_field WHERE blockid=$blockid");
 				$seq = 1;
 				if ($adb->num_rows($seq_res) > 0)
 				{
@@ -105,7 +105,7 @@ class ModuleDesigner
 					array
 					(
 						$fieldid,
-						3,
+						$blockid,
 						$module_name,
 						'layouts/vlayout/modules/Settings/'.$module_name.'/assets/images/'.$module_name.'.png',
 						'LBL_'.strtoupper($module_name).'_DESCRIPTION',

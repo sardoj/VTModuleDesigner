@@ -56,17 +56,9 @@
 		<select name="module_parent_tab">
 			<option value="">{vtranslate('LBL_SELECT_OPTION', $QUALIFIED_MODULE)}</option>
 			{foreach item=parent_tab from=$LIST_PARENT_TABS}
-            	{assign var="tab_label_string" value=$parent_tab.parenttab_label_string}
-				<option value="{$parent_tab.parenttab_label}">{vtranslate("LBL_$tab_label_string")}</option>
+				<option value="{$parent_tab.parenttab_label}">{vtranslate($parent_tab.parenttab_label)}</option>
 			{/foreach}
-			<option value="CUSTOM">{vtranslate('LBL_CUSTOM_PARENT_TAB', $QUALIFIED_MODULE)}</option>
 		</select>
-	</td>
-</tr>
-<tr id="module_parent_tab_custom">
-	<td>&nbsp;</td>
-	<td>
-		<input type="text" name="module_parent_tab_name" />
 	</td>
 </tr>
 </table>

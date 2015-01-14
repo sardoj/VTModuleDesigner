@@ -98,8 +98,24 @@ $(document).ready
 		
 		//Put a default theme to all buttons
 		$("button").button();
-
-		//jmd_container.find(".md-tab").first().attr("class", "toto");
+		
+		//Display or hide elements regards to the manifest
+		jmd_container.find("select[name='module_manifest_template']").change(function(){
+			var manifest = jmd_container.find("select[name='module_manifest_template']").val();
+			
+			if(manifest == 'extension.xml.php')
+			{
+				$("#md-tab-blocks-fields").hide();
+				$("#md-tab-related-lists").hide();
+				$("#md-tab-filters").hide();
+			}
+			else
+			{
+				$("#md-tab-blocks-fields").show();
+				$("#md-tab-related-lists").show();
+				$("#md-tab-filters").show();
+			}
+		});
 
 		//Add an event on tabs
 		jmd_container.find('.md-tab').click
