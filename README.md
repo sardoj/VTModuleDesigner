@@ -1,9 +1,9 @@
 VTModuleDesigner
 ================
 
-> ****************************************************************
-> WARNING : VTModuleDesigner does not work with magic_quotes_gpc()
-> ****************************************************************
+> *************************************************************************************************************
+> Download Module Designer extension for Vtiger CRM: [http://www.mediatoolbox.org](http://www.mediatoolbox.org)
+> *************************************************************************************************************
 
 # How to
 Video tutorial : [http://youtu.be/PF3noyh7M-g](http://youtu.be/PF3noyh7M-g)

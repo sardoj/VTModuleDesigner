@@ -18,13 +18,15 @@ class ModuleDesigner
 	 */
 	function vtlib_handler($module_name, $event_type)
 	{
-		//require_once('include/utils/utils.php');
 		global $adb;
 	
 		$module = Vtiger_Module::getInstance($module_name);
 	
 		if($event_type == 'module.postinstall')
 		{
+			//Don't allow users to download the module
+			$adb->pquery("UPDATE vtiger_tab SET customized=? WHERE tabid=?", array(0, $module->id));
+			
 			//************* Set access right for all profiles ***********************//
 			//Don't display module name in menu
 			$adb->pquery("UPDATE vtiger_profile2tab SET permissions=? WHERE tabid=?", array(1, $module->id));
@@ -82,8 +84,15 @@ class ModuleDesigner
 		}
 		else if($event_type == 'module.postupdate')
 		{
+			//Don't allow users to download the module
+			$adb->pquery("UPDATE vtiger_tab SET customized=? WHERE tabid=?", array(0, $module->id));
+			
 			$query = "SELECT * FROM vtiger_settings_field WHERE name = ?";
 			$result = $adb->pquery($query, array($module_name));
+			
+			//Add link to the module in the Setting Panel
+			$fieldid = $adb->getUniqueID('vtiger_settings_field');
+			$blockid = getSettingsBlockId('LBL_STUDIO');
 			
 			if($adb->num_rows($result) == 0)
 			{			
