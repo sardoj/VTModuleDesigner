@@ -2,7 +2,11 @@ VTModuleDesigner
 ================
 
 > *************************************************************************************************************
-> Download Module Designer extension for Vtiger CRM: [http://www.mediatoolbox.org](http://www.mediatoolbox.org)
+> Download Module Designer 1.0 RC: [http://www.mediatoolbox.org](http://www.mediatoolbox.org)
+> *************************************************************************************************************
+
+> *************************************************************************************************************
+> Don't forget to install vtlib patch!!! You can find in the "patch" folder, files to replace in your CRM.
 > *************************************************************************************************************
 
 # How to
