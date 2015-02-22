@@ -673,10 +673,15 @@ class Vtiger_PackageImport extends Vtiger_PackageExport {
 
 		// Set the field as entity identifier if marked.
 		if(!empty($fieldnode->entityidentifier)) {
-			$moduleInstance->entityidfield = $fieldnode->entityidentifier->entityidfield;
-			$moduleInstance->entityidcolumn= $fieldnode->entityidentifier->entityidcolumn;
+     		if(isset($fieldnode->entityidentifier->fieldname) && !empty($fieldnode->entityidentifier->fieldname)) {
+				$moduleInstance->entityfieldname = strval($fieldnode->entityidentifier->fieldname);
+			} else {
+				$moduleInstance->entityfieldname = $fieldInstance->name;
+			}
+			$moduleInstance->entityidfield = strval($fieldnode->entityidentifier->entityidfield);
+			$moduleInstance->entityidcolumn= strval($fieldnode->entityidentifier->entityidcolumn);
 			$moduleInstance->setEntityIdentifier($fieldInstance);
-		}
+     	}
 
 		// Check picklist values associated with field if any.
 		if(!empty($fieldnode->picklistvalues) && !empty($fieldnode->picklistvalues->picklistvalue)) {

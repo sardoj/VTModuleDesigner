@@ -16,6 +16,8 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 
 	public function process(Vtiger_Request $request)
 	{
+		global $default_language;
+		
 		$viewer = $this->getViewer ($request);
 		$moduleName = $request->getModule();
 		$qualifiedModuleName = $request->getModule(false);
@@ -98,6 +100,7 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('LIST_MODULES', $a_modules);
 		$viewer->assign('LIST_MANIFEST_TEMPLATES', $a_manifest_templates);
 		$viewer->assign('LIST_DIR_TEMPLATES', $a_dir_templates);
+		$viewer->assign('DEFAULT_LANGUAGE', $default_language);
 		
 		echo $viewer->view('Index.tpl', $qualifiedModuleName,true);
 	}

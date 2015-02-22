@@ -61,7 +61,7 @@ function md_popupSave()
 	if(o_data.label == '')
 		field = '{addslashes(vtranslate("LBL_BLOCK_LABEL", $QUALIFIED_MODULE))}';
 {foreach item=language from=$a_languages}
-	else if(o_data.label_{$language} == '')
+	else if('{$language}' == window.parent.defaultLanguage && o_data.label_{$language} == '')
 		field = '{addslashes(vtranslate("LBL_BLOCK_LABEL_TRANSLATION", $QUALIFIED_MODULE)|cat:' '|cat:$language)}';
 {/foreach}
 	else

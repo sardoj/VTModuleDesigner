@@ -1,8 +1,9 @@
-<div class="row-fluid settingsHeader" style="padding: 10px;">
-<a href="index.php?module={$MODULE}&view=Index&parent=Settings">{vtranslate('LBL_MODULEDESIGNER', $QUALIFIED_MODULE)}</a>
-<hr/>
+<div class="row-fluid widget_header" style="margin-top: 10px;">
+	<div class="span12">
+		<a href="index.php?module={$MODULE}&view=Index&parent=Settings"><h3>{vtranslate('LBL_MODULEDESIGNER', $QUALIFIED_MODULE)}</h3></a>
+		<hr/>
+	</div>
 </div>
-
 
 <div id="md-container">
 	<div id="md-header">
@@ -56,5 +57,5 @@
 	
 </div><!-- md-container -->
 
-
+<input type="hidden" id="md-default-language" value="{$DEFAULT_LANGUAGE}" />
 <a id="md-edit-popup-link" data-fancybox-type="iframe" href="#">Edit popup link</a>

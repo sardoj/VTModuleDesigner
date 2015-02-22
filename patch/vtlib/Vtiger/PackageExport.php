@@ -461,6 +461,7 @@ class Vtiger_PackageExport {
 			// Export Entity Identifier Information
 			if($fieldname == $entity_fieldname) {
 				$this->openNode('entityidentifier');
+				$this->outputNode($adb->query_result($entityresult, 0, 'fieldname'),    'fieldname');
 				$this->outputNode($adb->query_result($entityresult, 0, 'entityidfield'),    'entityidfield');
 				$this->outputNode($adb->query_result($entityresult, 0, 'entityidcolumn'), 'entityidcolumn');
 				$this->closeNode('entityidentifier');

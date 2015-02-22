@@ -21,9 +21,32 @@
 <parent><?php echo $o_module->parentTab; ?></parent>
 <version><?php echo $o_module->version; ?></version>
 <dependencies>
-<vtiger_version>6.1.0</vtiger_version>
+<vtiger_version>6.0.0</vtiger_version>
 </dependencies>
 <tables>
+<?php if(!empty($o_module->a_usedTables)): ?>
+<?php foreach($o_module->a_usedTables as $tableName): ?>
+<?php if($tableName == 'vtiger_crmentity'){continue;} ?>
+<table>
+<name><?php echo $tableName; ?></name>
+<sql><![CDATA[CREATE TABLE `<?php echo $tableName; ?>` (
+  <?php if(!empty($o_module->a_tableNameIndexes[$tableName])): ?>
+  `<?php echo $o_module->a_tableNameIndexes[$tableName]; ?>` int(11) NOT NULL DEFAULT '0',
+  <?php else: ?>
+  `<?php echo $o_module->lowerName; ?>id` int(11) NOT NULL DEFAULT '0',
+  <?php endif; ?>
+  <?php foreach($o_module->a_fields as $o_field): ?><?php if(empty($o_field->tableName) || $o_field->tableName == $tableName): ?>
+  `<?php echo $o_field->fieldName; ?>` <?php echo $o_field->UITypeDBType; ?> DEFAULT NULL,
+  <?php endif; ?><?php endforeach; ?>
+  <?php if(!empty($o_module->a_tableNameIndexes[$tableName])): ?>
+  PRIMARY KEY (`<?php echo $o_module->a_tableNameIndexes[$tableName]; ?>`)
+  <?php else: ?>
+  PRIMARY KEY (`<?php echo $o_module->lowerName; ?>id`)
+  <?php endif; ?>
+) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
+</table>
+<?php endforeach; ?>
+<?php else: ?>
 <table>
 <name>vtiger_<?php echo $o_module->lowerName; ?></name>
 <sql><![CDATA[CREATE TABLE `vtiger_<?php echo $o_module->lowerName; ?>` (
@@ -34,13 +57,31 @@
   PRIMARY KEY (`<?php echo $o_module->lowerName; ?>id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
+<?php endif; ?>
+<?php $cfTableName = !empty($o_module->customFieldTable) ? $o_module->customFieldTable : 'vtiger_'.$o_module->lowerName.'cf'; ?>
+<?php  
+	if(!empty($o_module->customFieldTableIndex))
+	{
+		$cfTableIndex = $o_module->customFieldTableIndex;
+	}
+	elseif(!empty($o_module->a_tableNameIndexes[$cfTableName]))
+	{
+		$cfTableIndex = $o_module->a_tableNameIndexes[$cfTableName];
+	}
+	else
+	{
+		$cfTableIndex = $o_module->lowerName.'id';
+	}
+?>
+<?php if(!in_array($cfTableName, $o_module->a_usedTables)): ?>
 <table>
-<name>vtiger_<?php echo $o_module->lowerName; ?>cf</name>
-<sql><![CDATA[CREATE TABLE `vtiger_<?php echo $o_module->lowerName; ?>cf` (
-  `<?php echo $o_module->lowerName; ?>id` int(11) NOT NULL,
-  PRIMARY KEY (`<?php echo $o_module->lowerName; ?>id`)
+<name><?php echo $cfTableName; ?></name>
+<sql><![CDATA[CREATE TABLE `<?php echo $cfTableName; ?>` (
+  `<?php echo $cfTableIndex; ?>` int(11) NOT NULL,
+  PRIMARY KEY (`<?php echo $cfTableIndex; ?>`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
+<?php endif; ?>
 </tables>
 <blocks>
 <?php foreach($o_module->a_blocks as $i_block => $o_block): ?>
@@ -93,6 +134,7 @@
 <?php $a_pickListValues = explode(",", $o_field->pickListValues); ?>
 <picklistvalues>
 <?php foreach($a_pickListValues as $value): ?>
+<?php $value = trim($value); ?>
 <?php if(!empty($value)): ?>
 <picklistvalue><?php echo $value; ?></picklistvalue>
 <?php endif; ?>
@@ -101,9 +143,21 @@
 <?php endif; ?>
 <?php if($o_field->isEntityIdentifier): ?>
 <entityidentifier>
+<?php 
+	if(!empty($o_module->a_tableNameIndexes[$o_module->defaultTable]))
+	{
+		$entityIdField = $o_module->a_tableNameIndexes[$o_module->defaultTable];
+		$entityIdColumn = $entityIdField;
+	}
+	else
+	{
+		$entityIdField = $o_module->lowerName.'id';
+		$entityIdColumn = $entityIdField;
+	}
+?>
 <fieldname><?php echo $o_field->entityIdentifierFieldName; ?></fieldname>
-<entityidfield><?php echo $o_module->lowerName; ?>id</entityidfield>
-<entityidcolumn><?php echo $o_module->lowerName; ?>id</entityidcolumn>
+<entityidfield><?php echo $entityIdField; ?></entityidfield>
+<entityidcolumn><?php echo $entityIdColumn; ?></entityidcolumn>
 </entityidentifier>
 <?php endif; ?>
 </field>

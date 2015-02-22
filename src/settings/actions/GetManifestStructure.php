@@ -130,6 +130,10 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Vtige
 	
 	protected function getModuleName($xml_manifest)
 	{
+		$xml_manifest = html_entity_decode($xml_manifest, ENT_QUOTES, "utf-8");
+		$xml_manifest = str_replace("&amp;", "&", $xml_manifest); //Because there can be both & and &amp; in XML file
+		$xml_manifest = str_replace("&", "&amp;", $xml_manifest);
+		
 		$xml_module = new SimpleXMLElement($xml_manifest);
 		
 		return (String) $xml_module->name;
@@ -223,7 +227,11 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Vtige
 	}
 	
 	protected function getModuleObject($moduleName, $xml_manifest)
-	{		
+	{
+		$xml_manifest = html_entity_decode($xml_manifest, ENT_QUOTES, "utf-8");
+		$xml_manifest = str_replace("&amp;", "&", $xml_manifest); //Because there can be both & and &amp; in XML file
+		$xml_manifest = str_replace("&", "&amp;", $xml_manifest);
+		
 		$xml_module = new SimpleXMLElement($xml_manifest);
 		
 		$o_module = new stdClass();			
@@ -231,6 +239,7 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Vtige
 		$o_module->label = (String) $xml_module->label;		
 		$o_module->parent = (String) $xml_module->parent;
 		$o_module->version = (String) $xml_module->version;
+		$o_module->type = !empty($xml_module->type) ? (String) $xml_module->type : 'module';
 				
 		$this->getModuleTranslatedLabel($o_module);
 		
@@ -240,6 +249,7 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Vtige
 		$this->getEvents($xml_module, $o_module);
 		//$this->getFilterAll($xml_module, $o_module);
 		
+		$this->getModuleDefaultTable($moduleName, $o_module);
 		$this->getPopupFieldsSequence($moduleName, $o_module);
 		$this->getRelatedListFieldsSequence($moduleName, $o_module);
 		
@@ -380,7 +390,8 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Vtige
 			{
 				$picklistvalues_array = $this->sx_array($xml_field->picklistvalues);
 			}
-			$o_field->pickListValues = !empty($xml_field->picklistvalues->picklistvalue) ? implode(",", $picklistvalues_array['picklistvalue']) : null;//MODIF by DavidV 2013-01-12
+			
+			$o_field->pickListValues = !empty($picklistvalues_array['picklistvalue']) && is_array($picklistvalues_array['picklistvalue']) ? implode(",", $picklistvalues_array['picklistvalue']) : null;//MODIF by DavidV 2013-01-12
 			
 			//UIType
 			global $currentModule;
@@ -636,6 +647,23 @@ class Settings_ModuleDesigner_GetManifestStructure_Action extends Settings_Vtige
 				{
 					$o_module->a_filterAll[] = (String) $field->fieldname;
 				}
+			}
+		}
+	}
+	
+	protected function getModuleDefaultTable($moduleName, $o_module)
+	{
+		$o_module->defaultTable = "vtiger_".strtolower($moduleName);
+			
+		if(file_exists($this->moduleBaseDir."modules/$moduleName/$moduleName.php"))
+		{
+		    require_once($this->moduleBaseDir."modules/$moduleName/$moduleName.php");
+		    
+		    $focus = new $moduleName();
+		    
+			if(!empty($focus->table_name))
+			{
+		    	$o_module->defaultTable = $focus->table_name;
 			}
 		}
 	}

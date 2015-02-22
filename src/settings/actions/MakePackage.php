@@ -115,6 +115,23 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 		
 		$this->sortModuleData($o_module);
 		
+		//Store all tables which are used
+		$o_module->a_usedTables = array();
+		
+		foreach($o_module->a_fields as $i_field => $o_field)
+		{
+			if(!in_array($o_field->tableName, $o_module->a_usedTables))
+			{
+				$o_module->a_usedTables[] = $o_field->tableName;
+			}
+		}
+		
+		//Store all table indexes
+		$this->getModuleTableNameIndexes($o_module->name, $o_module);
+		
+		//Store custom table data
+		$this->getModuleCustomFieldTable($o_module->name, $o_module);
+		
 		return $o_module;
 	}
 	
@@ -138,13 +155,16 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 		ob_start();
 		include "modules/$moduleName/templates/{$o_module->manifestTemplate}";
 		$xml_manifest = ob_get_clean();
-		
+		$xml_manifest = str_replace("&amp;", "&", $xml_manifest); //Because there can be both & and &amp; in XML file
+		$xml_manifest = str_replace("&", "&amp;", $xml_manifest);
+		$xml_manifest = preg_replace_callback('`<!\[CDATA\[(.+?)\]\]>`', array($this, 'replaceEncodedAndInCDATA'), $xml_manifest); //For Custom links
+				
 		file_put_contents(DIR_TEMP."{$dirname}/manifest.xml", $xml_manifest);
 		
 		//Also copy manifest in module directory
 		//file_put_contents($module_dir."manifest.xml", $xml_manifest);
 	}
-	
+		
 	protected function makeModuleDirectory($dirname, $moduleName, $module_dir, $o_module)
 	{
 		//Make module directory
@@ -287,24 +307,26 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 							array
 							(
 								'class '.$o_module->modifiedModule,
+								'function '.$o_module->modifiedModule,
 								strtolower($o_module->modifiedModule)
 							),
 							array
 							(
-								'class ModuleClass',
+								'class <ModuleName>',
+								'function <ModuleName>',
 								'payslip'
 							),
 							$moduleClass_txt
 						);
 						
-			if($o_module->directoryTemplate == '6.0.0')
-			{
-				$moduleClass_txt = str_replace('class '.$o_module->modifiedModule, 'class ModuleName', $moduleClass_txt);
-			}
-			else
-			{
-				$moduleClass_txt = str_replace('class '.$o_module->modifiedModule, 'class ModuleClass', $moduleClass_txt);
-			}
+			// if($o_module->directoryTemplate == '6.0.0')
+			// {
+				// $moduleClass_txt = str_replace('class '.$o_module->modifiedModule, 'class ModuleName', $moduleClass_txt);
+			// }
+			// else
+			// {
+				// $moduleClass_txt = str_replace('class '.$o_module->modifiedModule, 'class ModuleClass', $moduleClass_txt);
+			// }
 			
 			$moduleClass_txt = preg_replace
 								(
@@ -383,6 +405,32 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 		    }
 		}
 		
+		//Add Related List
+		$a_relatedListToCreate = array();
+		foreach($o_module->a_fields as $o_field)
+		{
+		    if(!empty($o_field->relatedModule) && is_array($o_field->relatedModule))
+		    {
+		    	foreach($o_field->relatedModule as $key => $relatedModule)
+				{
+					if($o_field->addRelatedList[$key])
+					{	
+						$relatedListStr = "\r\n".
+											"\t\t\$moduleInstance = Vtiger_Module::getInstance('$relatedModule');\r\n".
+											"\t\t\$relatedModuleInstance = Vtiger_Module::getInstance('$o_module->name');\r\n".
+											"\t\t\$relationLabel = 'LBL_".strtoupper($o_module->name)."_LIST';\r\n".
+											"\t\t\$moduleInstance->setRelatedList(\r\n".
+											"\t\t\t\$relatedModuleInstance, \$relationLabel, array('ADD'), 'get_dependents_list'\r\n".
+											"\t\t);\r\n";
+						
+						$a_relatedListToCreate[] = $relatedListStr;
+					}
+				}
+		    }
+		}
+		$related_lists_to_create = implode("", $a_relatedListToCreate);
+		
+		
 		$module_class_content = file_get_contents($module_dir.$o_module->name.'.php');
 		$module_class_content = str_replace
 			(
@@ -394,14 +442,15 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 					'payslip',
 					'Payslip',
 					//Vtiger 6
-					'ModuleName',
+					'<ModuleName>',
 					'<modulename>',
 					'<entityfieldname>',
 					//Generic
 					'%%%RELATED_LIST_FIELDS%%%',
 					'%%%RELATED_LIST_FIELDS_NAME%%%',
 					'%%%POPUP_FIELDS%%%',
-					'%%%POPUP_FIELDS_NAME%%%'
+					'%%%POPUP_FIELDS_NAME%%%',
+					'%%%RELATED_LISTS_TO_CREATE%%%',
 				),
 				array
 				(
@@ -418,7 +467,8 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 					$related_list_fields,
 					$related_list_fields_name,
 					$popup_fields,
-					$popup_fields_name
+					$popup_fields_name,
+					$related_lists_to_create
 				),
 				$module_class_content
 			);
@@ -530,6 +580,44 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 		
 		return $zipfilename;
 	}
+
+	protected function getModuleTableNameIndexes($moduleName, $o_module)
+	{
+		$o_module->a_tableNameIndexes = array();
+		
+		if(file_exists($this->moduleBaseDir."modules/$moduleName/$moduleName.php"))
+		{
+		    require_once($this->moduleBaseDir."modules/$moduleName/$moduleName.php");
+		    
+		    $focus = new $moduleName();
+		    
+			if(!empty($focus->tab_name_index))
+			{
+		    	$o_module->a_tableNameIndexes = $focus->tab_name_index;
+			}
+		}
+	}
+	
+	protected function getModuleCustomFieldTable($moduleName, $o_module)
+	{
+		$o_module->customFieldTable = null;
+		$o_module->customFieldTableIndex = null;
+		
+		if(file_exists($this->moduleBaseDir."modules/$moduleName/$moduleName.php"))
+		{
+		    require_once($this->moduleBaseDir."modules/$moduleName/$moduleName.php");
+		    
+		    $focus = new $moduleName();
+		    
+			if(!empty($focus->customFieldTable))
+			{
+				$a_tables = array_keys($focus->customFieldTable);
+				
+		    	$o_module->customFieldTable = $a_tables[0];
+				$o_module->customFieldTableIndex = $focus->customFieldTable[$a_tables[0]];
+			}
+		}
+	}
 	
 	protected function copyr($source, $dest, $old_file_name=false, $new_file_name=false)
 	{
@@ -595,4 +683,8 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 	{
 	    return $a->relatedListSequence - $b->relatedListSequence;
 	}
-}
+	
+	protected function replaceEncodedAndInCDATA($m) {
+		return '<![CDATA[' . preg_replace("`&amp;`", '&', $m[1]) . ']]>';
+	}
+}	

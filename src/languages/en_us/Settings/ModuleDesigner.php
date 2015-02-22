@@ -88,7 +88,7 @@ $languageStrings = array (
 		'LBL_RELATED_MODULE' => 'Related module',
 		'LBL_PICKLIST_OPTIONS' => 'Options',
 		'LBL_PICKLIST_OPTIONS_TOOLTIP' => '(Separate values with comma)',
-		'LBL_MANDATORY' => 'Madatory field',
+		'LBL_MANDATORY' => 'Mandatory field',
 		'LBL_ENTITY_IDENTIFIER' => 'Identifier',
 		'LBL_ENTITY_IDENTIFIER_FIELD_NAME' => 'Field\'s name:',
 		'LBL_ENTITY_IDENTIFIER_FIELD_NAME_HELPINFO' => '(separate with comma)',
@@ -106,6 +106,7 @@ $languageStrings = array (
 		'LBL_GENERATED_TYPE_1' => 'Date of day',
 		'LBL_GENERATED_TYPE_2' => 'Empty',
 		'LBL_READ_ONLY' => 'Read only',
+		'LBL_CREATE_RELATED_LIST' => 'Create a RelatedList',
 		
 		'LBL_CUSTOM_LINK' => 'Custom Link',
 		'LBL_CUSTOM_LINK_DESCRIPTION' => 'Description',

@@ -17,7 +17,7 @@
 </tr>
 <tr>
 	<td>{vtranslate("LBL_FIELD_NAME", $QUALIFIED_MODULE)}</td>
-	<td colspan="2"><input type="text" name="field_name" size="25" maxlength="25" value="{$a_field.fieldName}" onkeyup=" md_setFieldName(this, 'entity_identifier_fieldname'); md_setLabel(this, 'label', 'LBL_'); md_setColumnName(this, 'column_name', 'LBL_')"/></td>
+	<td colspan="2"><input type="text" name="field_name" size="25" maxlength="25" value="{$a_field.fieldName}" onkeyup="md_setFieldName(this, 'entity_identifier_fieldname'); md_setLabel(this, 'label', 'LBL_'); md_setColumnName(this, 'column_name', 'LBL_')"/></td>
 </tr>
 <tr>
 	<td>{vtranslate("LBL_FIELD_LABEL", $QUALIFIED_MODULE)}</td>
@@ -62,6 +62,10 @@
 	<td>&nbsp;</td>
 	<td><input type="text" name="related_modules[]" size="30" {if !in_array($relatedModule, $a_modules)}value="{$relatedModule}"{/if} /></td>
 </tr>
+<tr class="add_related_list" {if !$CAN_ADD_RELATED_LIST}style="display: none;"{/if}>
+	<td>{vtranslate("LBL_CREATE_RELATED_LIST", $QUALIFIED_MODULE)}</td>
+	<td><input type="checkbox" name="add_related_list[]" {if !isset($a_field.addRelatedList.$key) || $a_field.addRelatedList.$key == true}checked="checked"{/if} /></td>
+</tr>
 {/foreach}
 <tr>
 	<td colspan="3"><a href="javascript:md_addRelatedModule()">{vtranslate("LBL_ADD_RELATED_MODULE", $QUALIFIED_MODULE)}</a></td>
@@ -98,7 +102,7 @@
 {/if}
 <tr>
 	<td>{vtranslate("LBL_FIELD_HELP_INFO_LABEL", $QUALIFIED_MODULE)}</td>
-	<td colspan="2"><input type="text" name="help_info_label" size="50" value="{$a_field.helpInfoLabel}" onkeyup="md_setLabel(this, 'help_info_label', jQuery('input[name=\'label\']').val()+'_INFO'); md_showOrHideHelpInfoTranslation(this, 'LBL_', 'help-info-translation');"/></td>
+	<td colspan="2"><input type="text" name="help_info_label" size="50" value="{$a_field.helpInfoLabel}" onkeyup="md_showOrHideHelpInfoTranslation(this, 'LBL_', 'help-info-translation');"/></td>
 </tr>
 {foreach item=language from=$a_languages}
 {assign var=label value='helpInfoLabel_'|cat:$language}
@@ -169,14 +173,16 @@ function md_addRelatedModule()
 {ldelim}
 	var row = $(".related_module:first").html();
 	var row1 = $(".custom_related_module:first").html();
+	var row2 = $(".add_related_list:first").html();
 
-	$(".custom_related_module:last").after('<tr class="related_module">'+row+'</tr><tr class="custom_related_module" style="display:none">'+row1+'</tr>');
+	$(".add_related_list:last").after('<tr class="related_module">'+row+'</tr><tr class="custom_related_module" style="display:none">'+row1+'</tr><tr class="add_related_list" {if !$CAN_ADD_RELATED_LIST}style="display: none;"{/if}>'+row2+'</tr>');
 	
 	$(".delete-related-module:gt(0)").show();
 {rdelim}
 
 function md_deleteRelatedModule(a)
 {ldelim}
+	$(a).parent().parent().next().next().remove();
 	$(a).parent().parent().next().remove();
 	$(a).parent().parent().remove();
 {rdelim}
@@ -207,6 +213,7 @@ function deleteCustomValues(array)
 
 function md_popupSave()
 {ldelim}
+
 	var o_data = new Object();
 	o_data.id							= {if !empty($a_field.id)}'{$a_field.id}'{else}undefined{/if};
 	o_data.index						= {if !empty($a_field.index)}{$a_field.index}{else}undefined{/if};
@@ -236,10 +243,41 @@ function md_popupSave()
 	o_data.massEditable					= $("input[name='mass_editable']").attr("checked") == "checked";
 	o_data.readOnly						= $("input[name='read_only']").attr("checked") == "checked";
 	o_data.relatedModule				= o_data.UITypeNum == 10 ? $("*[name='related_modules\\[\\]']").map(function(){ldelim}return $(this).val();{rdelim}).get() : undefined;
+	o_data.addRelatedList				= o_data.UITypeNum == 10 ? $("*[name='add_related_list\\[\\]']").map(function(){ldelim}return $(this).is(":checked");{rdelim}).get() : undefined;
 	o_data.pickListValues				= o_data.UITypeNum == 15 || o_data.UITypeNum == 16 || o_data.UITypeNum == 33 ? $("input[name='picklist_values']").val() : undefined;
-
+		
+	//Not allow "name" as fieldname
+	if(o_data.fieldName == 'name')
+	{
+		alert(window.parent.md_vtranslate("LBL_VTIGER_DOESNT_LIKE_NAME"));
+		return false;
+	}
+	
+	//Not allow several fields as identifier
+	if(o_data.isEntityIdentifier)
+	{	
+		if(window.parent.md_entityIdentifier != undefined && window.parent.md_entityIdentifier != o_data.oldFieldName)
+		{
+			alert(window.parent.md_vtranslate("LBL_NOT_POSSIBLE_TO_HAVE_SEVERAL_FIELDS_AS_IDENTIFIER"));
+			return false;
+		}
+		else
+		{
+			window.parent.md_entityIdentifier = o_data.fieldName;
+		}
+	}
+	else
+	{
+		if(window.parent.md_entityIdentifier == o_data.oldFieldName)
+		{
+			window.parent.md_entityIdentifier = undefined;
+		}
+	}
+	
 	if(o_data.UITypeNum == 10)
+	{
 		o_data.relatedModule = deleteCustomValues(o_data.relatedModule);
+	}
 
 {foreach item=language from=$a_languages}
 	o_data.label_{$language} = $("input[name='label-{$language}']").val();	
@@ -255,17 +293,17 @@ function md_popupSave()
 	if(o_data.label == '' || o_data.label == 'LBL_')
 		field = '{addslashes(vtranslate("LBL_FIELD_LABEL", $QUALIFIED_MODULE))}';
 {foreach item=language from=$a_languages}
-	else if(o_data.label_{$language} == '')
+	else if('{$language}' == window.parent.defaultLanguage && o_data.label_{$language} == '')
 		field = '{addslashes(vtranslate("LBL_FIELD_LABEL_TRANSLATION", $QUALIFIED_MODULE)|cat:' '|cat:$language)}';
 {/foreach}
 else if(o_data.isEntityIdentifier && o_data.entityIdentifierFieldName == '')
 	field = '{addslashes(vtranslate('LBL_FIELD_ENTITY_IDENTIFIER', $QUALIFIED_MODULE))}';
 {foreach item=language from=$a_languages}
-	else if(o_data.helpInfoLabel != '' && o_data.helpInfoLabel_{$language}  == '')
+	else if('{$language}' == window.parent.defaultLanguage && o_data.helpInfoLabel != '' && o_data.helpInfoLabel_{$language}  == '')
 		field = '{addslashes(vtranslate('LBL_FIELD_HELP_INFO_LABEL_TRANSLATION', $QUALIFIED_MODULE))} {$language}';
 {/foreach}
 	else if((o_data.UITypeNum == 15 || o_data.UITypeNum == 16 || o_data.UITypeNum == 33) && (o_data.pickListValues == ''))
-                field = '{addslashes(vtranslate('LBL_OPTIONS', $QUALIFIED_MODULE))}';
+        field = '{addslashes(vtranslate('LBL_OPTIONS', $QUALIFIED_MODULE))}';
     else
 		valid = true;
 

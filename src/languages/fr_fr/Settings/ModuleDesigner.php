@@ -106,6 +106,7 @@ $languageStrings = array (
 		'LBL_GENERATED_TYPE_1' => 'Date du jour',
 		'LBL_GENERATED_TYPE_2' => 'Aucune',
 		'LBL_READ_ONLY' => 'Lecture seule',
+		'LBL_CREATE_RELATED_LIST' => 'Créer une RelatedList',
 		
 		'LBL_CUSTOM_LINK' => 'Custom Link',
 		'LBL_CUSTOM_LINK_DESCRIPTION' => 'Description du lien',
@@ -199,7 +200,10 @@ $jsLanguageStrings = array(
 	'LBL_FILE' => 'Le fichier',
 	'LBL_DOES_NOT_EXIST' => 'n\'existe pas',
 	'LBL_MODULE_FOLDER' => 'Dossier du module',
-	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'Vous n\'êtes pas autorisé à modifier ce champ système'
+	'LBL_NOT_ALLOWED_TO_EDIT_THE_FIELD' => 'Vous n\'êtes pas autorisé à modifier ce champ système',
+	'LBL_VTIGER_DOESNT_LIKE_NAME' => 'Vtiger n\'aime pas les champs qui ont pour nom "name". Veuillez choisir un autre nom de champ.',
+	'LBL_NOT_POSSIBLE_TO_HAVE_SEVERAL_FIELDS_AS_IDENTIFIER' => 'Il n\'est pas possible de définir plusieurs champs en tant qu\'identifiant.',
+	'LBL_YOU_MUST_DEFINE_A_FIELD_AS_IDENTIFIER' => 'Vous devez définir un champ en tant qu\'identifiant.'
 );
 
 ?>

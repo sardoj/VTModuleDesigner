@@ -62,6 +62,7 @@ var a_filters = [];
 var stopPopup = false;
 var filter_fields_ul_droppable = true;
 
+var defaultLanguage;
 var scrollingFieldsToolbar;
 var scrollingCustomLinksToolbar;
 var scrollingRelatedListsToolbar;
@@ -69,12 +70,17 @@ var scrollingEventsToolbar;
 var scrollingFiltersToolbar;
 var jmd_container;
 
+var md_defaultTable;
+
+var md_entityIdentifier;
+
 $.fn.fancybox = jQuery.fn.fancybox;
 
 $(document).ready
 (
 	function()
 	{
+		defaultLanguage = $('#md-default-language').val();
 		scrollingFieldsToolbar = $('#md-fields-toolbar');
 		scrollingCustomLinksToolbar = $('#md-custom-links-toolbar');
 		scrollingRelatedListsToolbar = $('#md-related-list-toolbar');
@@ -92,7 +98,7 @@ $(document).ready
 				scrollingRelatedListsToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
 				scrollingEventsToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
 				scrollingFiltersToolbar.stop().animate({"marginTop": ($(window).scrollTop()) + "px"}, "medium" );
-				scrollingTrash.stop().animate({"top": ($(window).scrollTop() + 420) + "px"}, "medium" );
+				scrollingTrash.stop().animate({"top": ($(window).scrollTop() + 120) + "px"}, "medium" );
 			}
 		);
 		
@@ -892,7 +898,9 @@ function md_addBlock(o_block, isImporting)
 			{
 				var editedModuleName = jmd_container.find("input[name='module_name']").val();
 
-				md_openPopup("index.php?module="+MD_MODULE_NAME+"&view=EditField&mod="+editedModuleName+"&uitype="+uitype_num);
+				var existantModule = jmd_container.find("select[name='module_directory_template']").val() == 'EXISTANT' ? '1' : '0';
+			
+				md_openPopup("index.php?module="+MD_MODULE_NAME+"&view=EditField&mod="+editedModuleName+"&exist="+existantModule+"&uitype="+uitype_num);
 			}
 		}
 	});
@@ -986,7 +994,7 @@ function md_setFieldNewId(old_field_id, new_field_id)
 function md_addField(o_field, isImporting)
 {
 	jblock_edited = $(blockEdited);
-
+	
 	//Edit existing field
 	if(o_field.id != undefined && isImporting != true)
 	{
@@ -1023,6 +1031,12 @@ function md_addField(o_field, isImporting)
 	{
 		//Set field index
 		o_field.index = jblock_edited.find("li").length + 1;
+	
+		//Save identifier
+		if(o_field.isEntityIdentifier)
+		{
+			md_entityIdentifier = o_field.fieldName;
+		}
 
 		//Add field object
 		a_fields.push(o_field);
@@ -1116,8 +1130,12 @@ function md_addField(o_field, isImporting)
 				blockEdited = $("#md-block-"+blockNum+" ul");
 	
 				var editedModuleName = jmd_container.find("input[name='module_name']").val();
+				
+				var existantModule = jmd_container.find("select[name='module_directory_template']").val() == 'EXISTANT' ? '1' : '0';
 	
-				md_openPopup("index.php?module="+MD_MODULE_NAME+"&view=EditField&mod="+editedModuleName+"&field="+escape(JSON.stringify(o_field)));
+				var field_json = encode_utf8(JSON.stringify(o_field));
+	
+				md_openPopup("index.php?module="+MD_MODULE_NAME+"&view=EditField&mod="+editedModuleName+"&exist="+existantModule+"&field="+escape(field_json));
 			}
 			else
 			{
@@ -1127,6 +1145,10 @@ function md_addField(o_field, isImporting)
 	);
 
 	md_addFilterableField(o_field);
+}
+
+function encode_utf8(s) {
+  return unescape(encodeURIComponent(s));
 }
 
 function getFieldData(field_id)
@@ -1722,6 +1744,13 @@ function md_setFilterSequence(filter_id, index)
 
 function md_makePackage(installModule)
 {
+	if(md_entityIdentifier == undefined)
+	{
+		alert(md_vtranslate('LBL_YOU_MUST_DEFINE_A_FIELD_AS_IDENTIFIER'));
+		$("#md-tab-blocks-fields").click();
+		return;
+	}
+	
 	var md_moduleName				= jmd_container.find("input[name='module_name']").val();
 	var md_moduleLabel				= jmd_container.find("input[name='module_name']").val(); //TODO: add a field label
 	var md_moduleParentTab			= jmd_container.find("select[name='module_parent_tab']").val() == 'CUSTOM' ? jmd_container.find("input[name='module_parent_tab_name']").val() : jmd_container.find("select[name='module_parent_tab']").val();
@@ -1760,23 +1789,8 @@ function md_makePackage(installModule)
 	);
 
 	//Some checks for Module 6.0.0 -- TODO: Check if necessary for extension?
-    if(md_moduleManifestTemplate === 'module.xml.php' && md_moduleDirectoryTemplate === '6.0.0')
-    {
-    	//Check if there is an entity field
-        var errorEntity = true;
-
-        $.each(a_fields, function( index, object ) {
-            if(object.isEntityIdentifier === true)
-                errorEntity = false;
-        });
-
-        if(errorEntity === true)
-        {
-            alert(app.vtranslate('LBL_MANDATORY_ENTITYFIELD', MD_QUALIFIED_MODULE_NAME));
-            $("#md-tab-blocks-fields").click();
-            return false;
-        }
-        
+    if(md_moduleManifestTemplate === 'module.xml.php' && (md_moduleDirectoryTemplate === '6.0.0' || md_moduleDirectoryTemplate === '6.1.0' || md_moduleDirectoryTemplate === 'Module 6.x'))
+    {        
         //Check if some filter have empty field
         var error_filters = false;
 
@@ -1800,6 +1814,7 @@ function md_makePackage(installModule)
 						'label':md_moduleLabel,
 						'parentTab':md_moduleParentTab,
 						'version':md_version,
+						'defaultTable': md_defaultTable,
 						'directoryTemplate':md_moduleDirectoryTemplate,
 						'manifestTemplate':md_moduleManifestTemplate,
 						'languages':md_languages,
@@ -1980,9 +1995,24 @@ function setModuleData(autoSelectModuleDirectory, moduleDirName)
 		return;
 	}
 	
+	//Store module's default table name
+	md_defaultTable = o_module.defaultTable;
+	
 	jmd_container.find("input[name='module_name']").val(o_module.name);
 	jmd_container.find("input[name='module_version']").val(o_module.version);
 	jmd_container.find("select[name='module_parent_tab'] option[value='"+o_module.parent+"']").attr("selected", "selected");
+	
+	if(o_module.type != undefined)
+	{
+		if(o_module.type == 'extension')
+		{
+			jmd_container.find("select[name='module_manifest_template'] option[value='extension.xml.php']").attr("selected", "selected");
+		}
+		else
+		{
+			jmd_container.find("select[name='module_manifest_template'] option[value='module.xml.php']").attr("selected", "selected");
+		}
+	}
 
 	if(autoSelectModuleDirectory)
 	{
@@ -2099,4 +2129,9 @@ function setModuleData(autoSelectModuleDirectory, moduleDirName)
 
 	//Load custom JS method
 	md_LoadModuleCustom(o_module);
+}
+
+function md_vtranslate(string)
+{
+	return app.vtranslate(string);
 }

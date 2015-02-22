@@ -42,12 +42,12 @@ class Settings_ModuleDesigner_EditField_View extends Settings_Vtiger_Index_View
 			$a_languages = explode(",", $languages);
 			
 			if($request->get("field"))
-			{		
+			{						
 				$a_field =  $request->get("field");
 							
 				//Repair bug with utf8 characters
 				if(!is_array($a_field))
-				{
+				{					
 					$oldValue = Zend_Json::$useBuiltinEncoderDecoder;
 					Zend_Json::$useBuiltinEncoderDecoder = true;
 					$a_field = Zend_Json::decode($a_field);
@@ -68,7 +68,7 @@ class Settings_ModuleDesigner_EditField_View extends Settings_Vtiger_Index_View
 				$a_field["fieldName"]					= '';
 				$a_field["oldFieldName"]				= '';
 				$a_field["label"]						= '';
-				$a_field["tableName"]					= 'vtiger_'.strtolower($request->get('mod'));
+				$a_field["tableName"]					= $this->getModuleDefaultTable($request->get('mod'));
 				$a_field["columnName"]					= '';
 				$a_field["helpInfoLabel"]				= '';
 				$a_field["defaultValue"]				= '';
@@ -86,6 +86,7 @@ class Settings_ModuleDesigner_EditField_View extends Settings_Vtiger_Index_View
 				$a_field["readOnly"]					= false;
 				$a_field["relatedModule"]				= null;
 				$a_field["pickListValues"]				= null;
+				$a_field["addRelatedList"]				= null;
 			
 				foreach($a_languages as $language)
 				{
@@ -124,6 +125,11 @@ class Settings_ModuleDesigner_EditField_View extends Settings_Vtiger_Index_View
 				{
 					$a_field["relatedModule"] = array($a_field["relatedModule"]);
 				}
+				
+				if(empty($a_field))
+				{
+					$a_field["addRelatedList"] = true;
+				}
 			}
 			
 			//Get modules
@@ -136,7 +142,17 @@ class Settings_ModuleDesigner_EditField_View extends Settings_Vtiger_Index_View
 			while($row = $db->fetchByAssoc($result))
 			{
 				$a_modules[] = $row["tablabel"];
-			}		
+			}
+			
+			//Can show add related list option
+			if($a_field["UITypeNum"] == 10 && $request->get('exist') == 0)
+			{
+				$canAddRelatedList = true;
+			} 
+			else
+			{
+				$canAddRelatedList = false;
+			}
 			
 			$viewer->assign('MODULE', $moduleName);
 			$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
@@ -144,9 +160,29 @@ class Settings_ModuleDesigner_EditField_View extends Settings_Vtiger_Index_View
 			$viewer->assign('a_modules', $a_modules);
 			$viewer->assign('a_field', $a_field);
 			$viewer->assign('a_languages', $a_languages);
+			$viewer->assign('CAN_ADD_RELATED_LIST', $canAddRelatedList);
 			
 			echo $viewer->view('EditFieldPopup.tpl', $qualifiedModuleName,true);
 		}
+	}
+	
+	protected function getModuleDefaultTable($moduleName)
+	{
+		$defaultTable = "vtiger_".strtolower($moduleName);
+			
+		if(file_exists($this->moduleBaseDir."modules/$moduleName/$moduleName.php"))
+		{
+		    require_once($this->moduleBaseDir."modules/$moduleName/$moduleName.php");
+		    
+		    $focus = new $moduleName();
+		    
+			if(!empty($focus->table_name))
+			{
+		    	$defaultTable = $focus->table_name;
+			}
+		}
+		
+		return $defaultTable;
 	}
 }
 ?>
