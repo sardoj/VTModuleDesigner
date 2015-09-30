@@ -614,7 +614,7 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 				$a_tables = array_keys($focus->customFieldTable);
 				
 		    	$o_module->customFieldTable = $a_tables[0];
-				$o_module->customFieldTableIndex = $focus->customFieldTable[$a_tables[0]];
+          $o_module->customFieldTableIndex = $a_tables[1];
 			}
 		}
 	}
