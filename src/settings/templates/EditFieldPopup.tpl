@@ -80,8 +80,8 @@
 <tr>
 	<td>{vtranslate("LBL_FIELD_NUMERIC_TYPE", $QUALIFIED_MODULE)}</td>
 	<td>
-	<input type="radio" name="numeric_type" value="I" {if $a_field.UITypeDataType == 'I' || empty($a_field.UITypeDataType)}checked="checked"{/if} />{vtranslate("LBL_FIELD_INTEGER", $QUALIFIED_MODULE)} 
-	<input type="radio" name="numeric_type" value="N" {if $a_field.UITypeDataType == 'N'}checked="checked"{/if} />{vtranslate("LBL_FIELD_DECIMAL", $QUALIFIED_MODULE)} 
+	<input type="radio" name="numeric_type" value="I" {if $a_field.UITypeDataType == 'I' || empty($a_field.UITypeDataType)}checked="checked"{/if} />{vtranslate("LBL_FIELD_INTEGER", $QUALIFIED_MODULE)}
+	<input type="radio" name="numeric_type" value="N" {if $a_field.UITypeDataType == 'N'}checked="checked"{/if} />{vtranslate("LBL_FIELD_DECIMAL", $QUALIFIED_MODULE)}
 	<input type="radio" name="numeric_type" value="NN" {if $a_field.UITypeDataType == 'NN'}checked="checked"{/if} />{vtranslate("LBL_FIELD_NEGATIVE_NUMBER", $QUALIFIED_MODULE)}
 	</td>
 </tr>
@@ -90,7 +90,7 @@
 <tr>
 	<td>{vtranslate("LBL_FIELD_DEFAULT_DATE", $QUALIFIED_MODULE)}</td>
 	<td colspan="2">
-	<input type="radio" name="generated_type" value="1" {if $a_field.generatedType == 1}checked="checked"{/if} />{vtranslate("LBL_GENERATED_TYPE_1", $QUALIFIED_MODULE)} 
+	<input type="radio" name="generated_type" value="1" {if $a_field.generatedType == 1}checked="checked"{/if} />{vtranslate("LBL_GENERATED_TYPE_1", $QUALIFIED_MODULE)}
 	<input type="radio" name="generated_type" value="2" {if $a_field.generatedType == 2 || empty($a_field.generatedType)}checked="checked"{/if} />{vtranslate("LBL_GENERATED_TYPE_2", $QUALIFIED_MODULE)}
 	</td>
 </tr>
@@ -114,9 +114,9 @@
 <tr>
 	<td>{vtranslate("LBL_FIELD_DISPLAY_TYPE", $QUALIFIED_MODULE)}</td>
 	<td colspan="2">
-	<input type="radio" name="display_type" value="1" {if $a_field.displayType == 1}checked="checked"{/if} />{vtranslate("LBL_DISPLAY_TYPE_1", $QUALIFIED_MODULE)} 
-	<input type="radio" name="display_type" value="2" {if $a_field.displayType == 2}checked="checked"{/if} />{vtranslate("LBL_DISPLAY_TYPE_2", $QUALIFIED_MODULE)} 
-	<input type="radio" name="display_type" value="3" {if $a_field.displayType == 3}checked="checked"{/if} />{vtranslate("LBL_DISPLAY_TYPE_3", $QUALIFIED_MODULE)} 
+	<input type="radio" name="display_type" value="1" {if $a_field.displayType == 1}checked="checked"{/if} />{vtranslate("LBL_DISPLAY_TYPE_1", $QUALIFIED_MODULE)}
+	<input type="radio" name="display_type" value="2" {if $a_field.displayType == 2}checked="checked"{/if} />{vtranslate("LBL_DISPLAY_TYPE_2", $QUALIFIED_MODULE)}
+	<input type="radio" name="display_type" value="3" {if $a_field.displayType == 3}checked="checked"{/if} />{vtranslate("LBL_DISPLAY_TYPE_3", $QUALIFIED_MODULE)}
 	</td>
 </tr>
 <tr>
@@ -176,7 +176,7 @@ function md_addRelatedModule()
 	var row2 = $(".add_related_list:first").html();
 
 	$(".add_related_list:last").after('<tr class="related_module">'+row+'</tr><tr class="custom_related_module" style="display:none">'+row1+'</tr><tr class="add_related_list" {if !$CAN_ADD_RELATED_LIST}style="display: none;"{/if}>'+row2+'</tr>');
-	
+
 	$(".delete-related-module:gt(0)").show();
 {rdelim}
 
@@ -201,13 +201,13 @@ function md_showOrHideCustomField(cb)
 function deleteCustomValues(array)
 {ldelim}
     var output=[];
-    
+
     for(var i=0; i<array.length; i++)
     {ldelim}
         if(array[i] != 'CUSTOM' && array[i] != '' && array[i] != undefined)
             output.push(array[i]);
     {rdelim}
-    
+
     return output;
 {rdelim}
 
@@ -245,18 +245,21 @@ function md_popupSave()
 	o_data.relatedModule				= o_data.UITypeNum == 10 ? $("*[name='related_modules\\[\\]']").map(function(){ldelim}return $(this).val();{rdelim}).get() : undefined;
 	o_data.addRelatedList				= o_data.UITypeNum == 10 ? $("*[name='add_related_list\\[\\]']").map(function(){ldelim}return $(this).is(":checked");{rdelim}).get() : undefined;
 	o_data.pickListValues				= o_data.UITypeNum == 15 || o_data.UITypeNum == 16 || o_data.UITypeNum == 33 ? $("input[name='picklist_values']").val() : undefined;
-		
+
 	//Not allow "name" as fieldname
 	if(o_data.fieldName == 'name')
 	{
 		alert(window.parent.md_vtranslate("LBL_VTIGER_DOESNT_LIKE_NAME"));
 		return false;
 	}
-	
+
 	//Not allow several fields as identifier
 	if(o_data.isEntityIdentifier)
-	{	
-		if(window.parent.md_entityIdentifier != undefined && window.parent.md_entityIdentifier != o_data.oldFieldName)
+	{
+		if(window.parent.md_entityIdentifier != undefined &&
+			window.parent.md_entityIdentifier.length > 0 &&
+			window.parent.md_entityIdentifier != o_data.oldFieldName)
+
 		{
 			alert(window.parent.md_vtranslate("LBL_NOT_POSSIBLE_TO_HAVE_SEVERAL_FIELDS_AS_IDENTIFIER"));
 			return false;
@@ -273,23 +276,23 @@ function md_popupSave()
 			window.parent.md_entityIdentifier = undefined;
 		}
 	}
-	
+
 	if(o_data.UITypeNum == 10)
 	{
 		o_data.relatedModule = deleteCustomValues(o_data.relatedModule);
 	}
 
 {foreach item=language from=$a_languages}
-	o_data.label_{$language} = $("input[name='label-{$language}']").val();	
+	o_data.label_{$language} = $("input[name='label-{$language}']").val();
 {/foreach}
 
 {foreach item=language from=$a_languages}
 	o_data.helpInfoLabel_{$language} = $("input[name='help-info-label-{$language}']").val();
 {/foreach}
-	
+
 	var valid = false;
 	var field = '';
-	
+
 	if(o_data.label == '' || o_data.label == 'LBL_')
 		field = '{addslashes(vtranslate("LBL_FIELD_LABEL", $QUALIFIED_MODULE))}';
 {foreach item=language from=$a_languages}
