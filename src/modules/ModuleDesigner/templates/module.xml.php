@@ -1,13 +1,13 @@
 <?php
 /***********************************************************************************
- * "The contents of this file are subject to the vtiger Public License Version 1.2 
+ * "The contents of this file are subject to the vtiger Public License Version 1.2
  * (the "License"); you may not use this file except in compliance with the License."
  * Software distributed under the License is distributed on an "AS IS" basis,
  * WITHOUT WARRANTY OF ANY KIND, either express or implied.
- * See the License for the specific language governing rights and limitations 
+ * See the License for the specific language governing rights and limitations
  * under the License.
  * The Original Code is Module Designer.
- * The Initial Developer of the Original Code is Jonathan SARDO. 
+ * The Initial Developer of the Original Code is Jonathan SARDO.
  * Portions created by Jonathan SARDO are Copyright (C).
  * All Rights Reserved.
  ************************************************************************************/
@@ -59,7 +59,7 @@
 </table>
 <?php endif; ?>
 <?php $cfTableName = !empty($o_module->customFieldTable) ? $o_module->customFieldTable : 'vtiger_'.$o_module->lowerName.'cf'; ?>
-<?php  
+<?php
 	if(!empty($o_module->customFieldTableIndex))
 	{
 		$cfTableIndex = $o_module->customFieldTableIndex;
@@ -77,8 +77,8 @@
 <table>
 <name><?php echo $cfTableName; ?></name>
 <sql><![CDATA[CREATE TABLE `<?php echo $cfTableName; ?>` (
-  `<?php echo $cfTableIndex; ?>` int(11) NOT NULL,
-  PRIMARY KEY (`<?php echo $cfTableIndex; ?>`)
+  `<?php echo $o_module->lowerName; ?>id` int(11) NOT NULL,
+  PRIMARY KEY (`<?php echo $o_module->lowerName; ?>id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8]]></sql>
 </table>
 <?php endif; ?>
@@ -143,7 +143,7 @@
 <?php endif; ?>
 <?php if($o_field->isEntityIdentifier): ?>
 <entityidentifier>
-<?php 
+<?php
 	if(!empty($o_module->a_tableNameIndexes[$o_module->defaultTable]))
 	{
 		$entityIdField = $o_module->a_tableNameIndexes[$o_module->defaultTable];
