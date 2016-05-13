@@ -94,6 +94,9 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		}
 		closedir($dir);
 		
+		include("languages/fr_fr/Settings/ModuleDesigner.php"); //TODO: TRANSFORM into dynamic
+		$a_translations = array_merge($languageStrings, $jsLanguageStrings);
+		
 		$viewer->assign('MODULE', $moduleName);
 		$viewer->assign('QUALIFIED_MODULE', $qualifiedModuleName);
 		$viewer->assign('LIST_PARENT_TABS', $a_parent_tabs);
@@ -101,6 +104,7 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('LIST_MANIFEST_TEMPLATES', $a_manifest_templates);
 		$viewer->assign('LIST_DIR_TEMPLATES', $a_dir_templates);
 		$viewer->assign('DEFAULT_LANGUAGE', $default_language);
+		$viewer->assign('TRANSLATIONS', addslashes(json_encode($a_translations)));
 		$viewer->assign('LAYOUT', Vtiger_Viewer::getLayoutName());
 		
 		echo $viewer->view('Index.tpl', $qualifiedModuleName,true);

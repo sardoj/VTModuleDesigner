@@ -1,0 +1,8 @@
+<div ng-controller="EditViewCtrl" ng-cloak>
+	<md-content class="md-whiteframe-1dp" flex>
+	    <md-tabs md-dynamic-height md-border-bottom>
+	    	<div ng-include="getSubView('General')"></div>
+	    	<div ng-include="getSubView('BlocksAndFields')"></div>
+	    </md-tabs>
+	</md-content>
+</div>

@@ -1,0 +1,70 @@
+<div ng-controller="GeneralCtrl">
+	<md-tab label="[[translate('LBL_PROPERTIES')]]">
+		<md-content class="md-padding" layout="column">
+			<h2 class="md-title">
+				<i class="fa fa-cog"></i>
+				[[translate('LBL_GENERAL')]]
+			</h2>
+		  
+		  	<div layout="row">
+				<md-input-container flex="20">
+					<label>[[translate('LBL_MODULE_TYPE')]]</label>
+					<md-select ng-model="module.type">
+						<md-option ng-repeat="type in a_moduleTypes" ng-value="[[type]]">[[type.label]]</md-option>
+					</md-select>
+					<md-tooltip md-direction="right">
+						[[translate('LBL_MODULE_TYPE_INFO')]]
+			        </md-tooltip>
+				</md-input-container>
+					
+				<div flex></div>
+		
+				<md-input-container flex="50">
+					<label>[[translate('LBL_MODULE_NAME')]]</label>
+					<input ng-model="module.name">
+				</md-input-container>
+					
+				<div flex></div>
+				
+				<md-input-container flex="20">
+					<label>[[translate('LBL_MODULE_VERSION')]]</label>
+					<input ng-model="module.version">
+				</md-input-container>
+				
+				<div flex></div>
+				
+				<md-input-container flex="20">
+					<label>[[translate('LBL_MODULE_PARENT_TAB')]]</label>
+					<md-select ng-model="module.parentTab">
+						<md-option ng-repeat="parentTab in a_parentTab" ng-value="[[parentTab]]">[[parentTab.label]]</md-option>
+					</md-select>
+				</md-input-container>
+			</div>
+			
+			<h2 class="md-title">
+				<i class="fa fa-language"></i>
+				[[translate('LBL_TRANSLATION')]]
+			</h2>
+			
+			<div ng-repeat="language in a_languages | orderBy: 'label'">
+				<h3 class="md-subhead">
+					[[language.label]] ([[language.code]])
+				</h3>
+			
+				<div layout="row">
+					<md-input-container flex="45">
+						<label>[[translate('LBL_SINGULAR_LABEL')]]</label>
+						<input ng-model="module.a_translations[language.code].singular">
+					</md-input-container>
+					
+					<div flex></div>
+					
+					<md-input-container flex="45">
+						<label>[[translate('LBL_PLURAL_LABEL')]]</label>
+						<input ng-model="module.a_translations[language.code].plural">
+					</md-input-container>
+				</div>
+			</div>
+		</md-content>
+	</md-tab>
+</div>

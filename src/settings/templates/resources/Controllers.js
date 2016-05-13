@@ -9,6 +9,36 @@ controller('AppCtrl', function ($scope)
 	$scope.a_languages = [{code: 'fr_fr', label: 'Français'}, {code: 'en_us', label: 'English'}];	
 	$scope.module = {a_blocks: []};
 	
+	$scope.activeView = 'Home';
+	
+	$scope.changeView = function(viewName){
+		$scope.activeView = viewName;
+	};
+	
+	$scope.getActiveView = function(){
+		return 'layouts/'+currentLayout+'/modules/Settings/'+currentModule+'/SubViews/'+$scope.activeView+'View.html';
+	};
+	
+	$scope.translate = function(string){
+		return a_translations[string];	
+	};
+}).
+
+controller('HomeViewCtrl', function ($scope)
+{  
+  	
+}).
+
+controller('EditViewCtrl', function ($scope)
+{  
+	$scope.getSubView = function(viewName){
+		return 'layouts/'+currentLayout+'/modules/Settings/'+currentModule+'/SubViews/EditView/'+viewName+'.html';
+	};
+}).
+
+controller('SettingsViewCtrl', function ($scope)
+{  
+  	
 }).
 
 controller('GeneralCtrl', function ($scope)
