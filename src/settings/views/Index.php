@@ -121,14 +121,14 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		$jsFileNames = array(			
-				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular/angular.min.js",
-				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-animate/angular-animate.min.js",
-				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-aria/angular-aria.min.js",
-				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-messages/angular-message.min.js",
-				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-material/angular-material.min.js",
-				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-route/angular-route.min.js",
+				"~/layouts/vlayout/modules/$moduleName/resources/bower_components/angular/angular.min.js",
+				"~/layouts/vlayout/modules/$moduleName/resources/bower_components/angular-animate/angular-animate.min.js",
+				"~/layouts/vlayout/modules/$moduleName/resources/bower_components/angular-aria/angular-aria.min.js",
+				"~/layouts/vlayout/modules/$moduleName/resources/bower_components/angular-messages/angular-message.min.js",
+				"~/layouts/vlayout/modules/$moduleName/resources/bower_components/angular-material/angular-material.min.js",
+				"~/layouts/vlayout/modules/$moduleName/resources/bower_components/angular-route/angular-route.min.js",
 				"modules.Settings.$moduleName.resources.Controllers",
-				"modules.Settings.$moduleName.resources.App",
+				"modules.Settings.$moduleName.resources.App"
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -141,8 +141,8 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		$cssFileNames = array(
-			'~/layouts/vlayout/modules/Settings/'.$moduleName.'/assets/css/ModuleDesigner.css',
-			"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-material/angular-material.min.css",
+			"~/layouts/vlayout/modules/Settings/$moduleName/assets/css/ModuleDesigner.css",
+			"~/layouts/vlayout/modules/$moduleName/resources/bower_components/angular-material/angular-material.min.css",
 			"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
