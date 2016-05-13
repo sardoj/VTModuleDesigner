@@ -1,0 +1,111 @@
+<md-dialog ng-cloak style="min-width: 70%">
+  <form>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>Ajouter un champ</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+        	<i class="fa fa-remove"></i>
+        </md-button>
+      </div>
+    </md-toolbar>
+    
+	<md-dialog-content>
+		<div class="md-dialog-content" layout="column">
+			<h2 class="md-subhead">Description du champ</h2>
+			
+			<div layout="row">
+				<md-input-container flex="30">
+					<label>Type</label>
+					<md-select ng-model="field.uitype">
+						<md-option ng-repeat="type in a_fieldTypes" ng-value="[[type.uitype]]">[[type.label]]</md-option>
+					</md-select>
+				</md-input-container>
+				
+				<div flex></div>
+	
+				<md-input-container flex="30">
+					<label>Nom du champ</label>
+					<input ng-model="field.fieldname" />
+				</md-input-container>
+				
+				<div flex></div>
+				
+				<md-input-container flex="30">
+					<label>Libellé</label>
+					<input ng-model="field.fieldlabel" />
+				</md-input-container>
+			</div>
+			
+			<div layout="row">
+				<md-input-container flex="30">
+					<label>Nom de la table</label>
+					<input ng-model="field.tablename" />
+				</md-input-container>
+				
+				<div flex></div>
+				
+				<md-input-container flex="30">
+					<label>Nom de la colonne</label>
+					<input ng-model="field.columnname" />
+				</md-input-container>
+				
+				<div flex></div>
+				
+				<md-input-container flex="30">
+					<label>Valeur par défaut</label>
+					<input ng-model="field.defaultvalue" />
+				</md-input-container>
+			</div>
+			
+			<h2 class="md-subhead">Options</h2>
+			
+			<div layout="row" class="field-options">
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.mandatory" flex="25">
+					Champ obligatoire
+				</md-switch>
+				
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.identifier" flex="25">
+					Identifiant
+				</md-switch>
+				
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.quickCreate" flex="25">
+					Création rapide
+				</md-switch>
+				
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.massEdit" flex="25">
+					Éditable en masse
+				</md-switch>
+			</div>
+			
+			<div layout="row">
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.listView" flex="25">
+					ListView
+				</md-switch>
+				
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.popup" flex="25">
+					Popup
+				</md-switch>
+				
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.relatedList" flex="25">
+					RelatedList
+				</md-switch>
+				
+				<md-switch class="md-primary" md-no-ink aria-label="Switch No Ink" ng-model="field.readOnly" flex="25">
+					Lecture seule
+				</md-switch>
+			</div>
+		</div>
+    </md-dialog-content>
+    
+    <md-dialog-actions layout="row">
+      <span flex></span>
+      <md-button ng-click="cancel()">
+			Annuler
+      </md-button>
+      <md-button ng-click="createField()" style="margin-right:20px;">
+			Valider
+      </md-button>
+    </md-dialog-actions>
+  </form>
+</md-dialog>

@@ -170,7 +170,7 @@ $languageStrings = array (
 		'LBL_UPDATE_SUCCESS' => 'The module has been correctly updated',
 		'LBL_UPDATE_ERROR_VERSION' => 'You\'re module\'s version is the same than the version of the module already installed',
 		'LBL_INSTALL_ERROR' => 'An error occured during installation. Please export the package and try to install it manually to see the error',
-		
+			
 		'LBL_CUSTOM_VALUES' => 'Custom values',
 		'LBL_MY_VARIABLE' => 'My variable',
 		'LBL_MY_VALUE' => 'My value',
@@ -195,6 +195,9 @@ $jsLanguageStrings = array(
 	'LBL_EMPTY_FIELD_FILTER' => 'Error, Filters cannot have empty fields.',
 	'LBL_CANNOT_EDIT_REMOVE_FIELD' => 'You cannot edit/remove a non-editable field',
 	'LBL_MANDATORY_ENTITYFIELD' => 'An Identifier field is required.',
+	'LBL_VTIGER_DOESNT_LIKE_NAME' => 'Vtiger does not like field called "name". Please choose another field name.',
+	'LBL_NOT_POSSIBLE_TO_HAVE_SEVERAL_FIELDS_AS_IDENTIFIER' => 'It is not possible to define several fields as identifier.',
+	'LBL_YOU_MUST_DEFINE_A_FIELD_AS_IDENTIFIER' => 'You must define a field as identifier'
 );
 
 ?>

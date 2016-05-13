@@ -101,6 +101,7 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		$viewer->assign('LIST_MANIFEST_TEMPLATES', $a_manifest_templates);
 		$viewer->assign('LIST_DIR_TEMPLATES', $a_dir_templates);
 		$viewer->assign('DEFAULT_LANGUAGE', $default_language);
+		$viewer->assign('LAYOUT', Vtiger_Viewer::getLayoutName());
 		
 		echo $viewer->view('Index.tpl', $qualifiedModuleName,true);
 	}
@@ -115,11 +116,15 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 
 		$moduleName = $request->getModule();
 
-		$jsFileNames = array(
-				'modules.Settings.'.$moduleName.'.resources.CustomScript',
-				'modules.Settings.'.$moduleName.'.resources.jqueryFancybox',
-				'modules.Settings.'.$moduleName.'.resources.jqueryCaret',
-				'modules.Settings.'.$moduleName.'.resources.jqueryUcfirst'
+		$jsFileNames = array(			
+				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular/angular.min.js",
+				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-animate/angular-animate.min.js",
+				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-aria/angular-aria.min.js",
+				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-messages/angular-message.min.js",
+				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-material/angular-material.min.js",
+				"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-route/angular-route.min.js",
+				"modules.Settings.$moduleName.resources.Controllers",
+				"modules.Settings.$moduleName.resources.App",
 		);
 		$jsScriptInstances = $this->checkAndConvertJsScripts($jsFileNames);
 		$headerScriptInstances = array_merge($headerScriptInstances, $jsScriptInstances);
@@ -132,8 +137,9 @@ class Settings_ModuleDesigner_Index_View extends Settings_Vtiger_Index_View {
 		$moduleName = $request->getModule();
 
 		$cssFileNames = array(
-			'~/layouts/vlayout/modules/Settings/'.$moduleName.'/assets/styles.css',
-			'~/layouts/vlayout/modules/Settings/'.$moduleName.'/assets/jqueryFancybox.css'
+			'~/layouts/vlayout/modules/Settings/'.$moduleName.'/assets/css/ModuleDesigner.css',
+			"~/layouts/vlayout/modules/AngularLib/resources/bower_components/angular-material/angular-material.min.css",
+			"https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
 		);
 		$cssInstances = $this->checkAndConvertCssStyles($cssFileNames);
 		$headerCssInstances = array_merge($headerCssInstances, $cssInstances);

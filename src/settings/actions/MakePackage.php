@@ -418,7 +418,8 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 						$relatedListStr = "\r\n".
 											"\t\t\$moduleInstance = Vtiger_Module::getInstance('$relatedModule');\r\n".
 											"\t\t\$relatedModuleInstance = Vtiger_Module::getInstance('$o_module->name');\r\n".
-											"\t\t\$relationLabel = 'LBL_".strtoupper($o_module->name)."_LIST';\r\n".
+											"\t\t\$relationLabel = 'LBL_".strtoupper($o_module->name)."_LIST';\r\n".											
+											"\t\t\$moduleInstance->unsetRelatedList(\$relatedModuleInstance);\r\n".
 											"\t\t\$moduleInstance->setRelatedList(\r\n".
 											"\t\t\t\$relatedModuleInstance, \$relationLabel, array('ADD'), 'get_dependents_list'\r\n".
 											"\t\t);\r\n";
@@ -614,7 +615,7 @@ class Settings_ModuleDesigner_MakePackage_Action extends Settings_Vtiger_Index_A
 				$a_tables = array_keys($focus->customFieldTable);
 				
 		    	$o_module->customFieldTable = $a_tables[0];
-          $o_module->customFieldTableIndex = $focus->customFieldTable[$a_tables[1]];
+				$o_module->customFieldTableIndex = $focus->customFieldTable[$a_tables[0]];
 			}
 		}
 	}

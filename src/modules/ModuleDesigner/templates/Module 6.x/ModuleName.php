@@ -84,14 +84,17 @@ class <ModuleName> extends Vtiger_CRMEntity {
  		if($eventType == 'module.postinstall') {
  			//Enable ModTracker for the module
  			static::enableModTracker($moduleName);
+			//Create Related Lists
+			static::createRelatedLists();
 		} else if($eventType == 'module.disabled') {
-			// TODO Handle actions before this module is being uninstalled.
+			// Handle actions before this module is being uninstalled.
 		} else if($eventType == 'module.preuninstall') {
-			// TODO Handle actions when this module is about to be deleted.
+			// Handle actions when this module is about to be deleted.
 		} else if($eventType == 'module.preupdate') {
-			// TODO Handle actions before this module is updated.
+			// Handle actions before this module is updated.
 		} else if($eventType == 'module.postupdate') {
-			// TODO Handle actions after this module is updated.
+			//Create Related Lists
+			static::createRelatedLists();
 		}
  	}
 	
@@ -106,5 +109,11 @@ class <ModuleName> extends Vtiger_CRMEntity {
 		//Enable ModTracker for the module
 		$moduleInstance = Vtiger_Module::getInstance($moduleName);
 		ModTracker::enableTrackingForModule($moduleInstance->getId());
+	}
+	
+	protected static function createRelatedLists()
+	{
+		include_once('vtlib/Vtiger/Module.php');	
+%%%RELATED_LISTS_TO_CREATE%%%
 	}
 }

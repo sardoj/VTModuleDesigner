@@ -1,0 +1,29 @@
+div[ng-app="ModuleDesignerApp"] input,
+md-dialog input,
+md-dialog input:focus{
+	box-shadow: none;
+}
+
+div[ng-app="ModuleDesignerApp"] md-content.fields-container{
+	background-color: #EFEFEF;
+	width: auto;
+}
+
+div[ng-app="ModuleDesignerApp"] md-divider{
+	margin-top: 30px;
+	margin-bottom: 20px;
+}
+
+.field-options .fa{
+	font-size: 20px;
+}
+div[ng-app="ModuleDesignerApp"] .field-summary{
+	background-color: #FFFFFF;
+}
+div[ng-app="ModuleDesignerApp"] .field-summary i.disabled{
+	color: #999999;
+}
+div[ng-app="ModuleDesignerApp"] .field-summary i.fa{
+	font-size: 16px;
+	margin-right: 5px;
+}
