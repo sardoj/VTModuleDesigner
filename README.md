@@ -22,7 +22,7 @@ You can set your own fields and variables. To do this modify these files:
 
 You can also create plugins to handle your variables, in the directory /modules/ModuleDesigner/plugins
 
-#v1.0 RC Change log:
+# v1.0 RC Change log:
 - Icon added for ModuleDesigner
 - HTML special chars bug fix
 - It is now possible to modify Vtiger Core’s modules
