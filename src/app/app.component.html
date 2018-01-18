@@ -1,20 +1,116 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<!-- <div fxLayout="row">
+  <div fxFlex></div>
+  <div>
+      <button mat-raised-button color="primary">
+          <mat-icon>translate</mat-icon>
+      </button>
+  </div>
+</div> -->
 
+<div>
+  <mat-tab-group>
+    <!-- General -->
+    <mat-tab label="{{ 'general.title' | translate }}">
+      <div>
+        <mat-card fxLayout="row" fxLayoutWrap>
+          <mat-form-field fxFlex="48">
+            <input matInput placeholder="{{ 'general.moduleName' | translate }}" required>
+          </mat-form-field>
+
+          <div fxFlex="4"></div>
+          
+          <mat-form-field fxFlex="48">
+            <input matInput placeholder="{{ 'general.version' | translate }}" required>
+          </mat-form-field>
+
+          <div fxFlex fxLayout="column">
+            <div fxLayout="row" *ngFor="let locale of a_locales">
+              <mat-form-field fxFlex="48" *ngIf="locale.active">
+                <input matInput placeholder="{{ 'general.moduleNameSingular' | translate }} ({{ locale.code }})" required>
+              </mat-form-field>
+
+              <div fxFlex="4"></div>
+
+              <mat-form-field fxFlex="48" *ngIf="locale.active">
+                <input matInput placeholder="{{ 'general.moduleNamePlural' | translate }} ({{ locale.code }})" required>
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-tab>
+
+    <!-- Blocks & Fields -->
+    <mat-tab label="{{ 'blocksFields.title' | translate }}">
+      <mat-card>
+        <div fxLayout="row">
+          <!-- UITypes -->
+          <div fxFlex="17" fxLayout="column" class="uitypes-list">
+            <mat-card>
+              <ul>
+                <li draggable [dragData]="uiType" *ngFor="let uiType of a_uiTypes">
+                  <span *ngIf="mode == 'expert'">{{ uiType.uitype }} -</span> {{ uiType.label | translate }}
+                </li>
+              </ul>
+            </mat-card>
+          </div>
+
+          <div fxFlex="4"></div>
+          
+          <div fxFlex fxLayout="column">
+            <!-- Blocks -->
+            <div fxLayout="row">
+              <div fxFlex></div>
+              <button mat-raised-button color="primary" (click)="addBlock()">
+                <mat-icon>add_circle_outline</mat-icon>
+                {{ 'blocksFields.addBlock' | translate }}
+              </button>
+            </div>
+
+            <mat-card droppable class="block" (onDrop)="onItemDrop($event, block)" *ngFor="let block of a_blocks">
+              <div fxLayout="column">
+                <mat-form-field>
+                  <input matInput placeholder="{{ 'blocksFields.blockLabel' | translate }}" required>
+                </mat-form-field>
+
+                <div fxFlex>
+                  <div fxLayout="column" *ngFor="let locale of a_locales">
+                    <mat-form-field *ngIf="locale.active">
+                      <input matInput placeholder="{{ 'blocksFields.blockLabelTranslation' | translate }} ({{ locale.code }})" required>
+                    </mat-form-field>
+                  </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutWrap>
+                  <div [fxFlex]="50 * field.width" *ngFor="let field of block.a_fields">
+                    {{ field.fieldname }}
+                  </div>
+                </div>
+              </div>
+            </mat-card>
+
+            <div fxLayout="row" *ngIf="a_blocks.length > 3">
+              <div fxFlex></div>
+              <button mat-raised-button color="primary" (click)="addBlock()">
+                <mat-icon>add_circle_outline</mat-icon>
+                {{ 'blocksFields.addBlock' | translate }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="{{ 'lists.title' | translate }}">
+      <mat-card>
+        To be continued...
+      </mat-card>
+    </mat-tab>
+
+    <mat-tab label="{{ 'export.title' | translate }}">
+      <mat-card>
+        To be continued...
+      </mat-card>
+    </mat-tab>
+  </mat-tab-group>
+</div>
