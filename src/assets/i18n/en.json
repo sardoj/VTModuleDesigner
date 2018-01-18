@@ -1,0 +1,32 @@
+{
+    "general.title": "General",
+    "general.version": "Version",
+    "general.moduleName": "Module name",
+    "general.moduleNameSingular" : "Translation singular",
+    "general.moduleNamePlural" : "Translation plural",
+
+    "blocksFields.title": "Blocks & Fields",
+    "blocksFields.addBlock": "Add block",
+    "blocksFields.blockLabel": "Block label",
+    "blocksFields.blockLabelTranslation": "Translation",
+
+    "lists.title": "Lists",
+
+    "export.title": "Export",
+
+    "uitype.textInput": "Text input",
+    "uitype.autoNumber": "Auto number",
+    "uitype.date": "Date",
+    "uitype.numericImput": "Numeric imput",
+    "uitype.percentageImput": "Percentage imput",
+    "uitype.relatedModule": "Related module",
+    "uitype.pickListSecurised": "PickList securised",
+    "uitype.pickListMultiple": "PickList multiple",
+    "uitype.pickList": "PickList",
+    "uitype.emailInput": "Email imput",
+    "uitype.url": "URL",
+    "uitype.textArea": "Textarea",
+    "uitype.textAreaSmall": "Textarea small",
+    "uitype.boolean": "Boolean",
+    "uitype.amount": "Amount"
+}
