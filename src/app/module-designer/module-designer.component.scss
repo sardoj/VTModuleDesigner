@@ -1,0 +1,23 @@
+.uitypes-list {
+    ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+            padding: 5px;
+            border: solid 1px rgba(0, 0, 0, 0.39);
+            color: rgba(0, 0, 0, 0.568);
+            margin-bottom: 4px;
+            border-radius: 2px;
+
+            &:hover {
+                background-color: #f0f0f0;
+            }
+        }
+    }
+}
+
+.block {
+    margin: 15px 0;
+}

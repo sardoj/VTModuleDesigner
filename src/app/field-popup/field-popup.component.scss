@@ -1,0 +1,17 @@
+h3 {
+    margin-top: 0;
+}
+
+mat-form-field {
+    padding: 0 10px;
+}
+
+mat-icon {
+    padding: 0 10px;
+    cursor: pointer;
+    color: #3f51b5;
+
+    &.not-active {
+        color: #c6c6c6;
+    }
+}

@@ -6,18 +6,25 @@ import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgDragDropModule } from 'ng-drag-drop';
+import { FormsModule } from '@angular/forms';
 
 import {
   MatTabsModule,
   MatCardModule,
   MatInputModule,
   MatButtonModule,
-  MatIconModule
+  MatIconModule,
+  MatDialogModule,
+  MatSelectModule,
+  MatTooltipModule,
+  MatChipsModule
 } from '@angular/material';
 
 
 import { AppComponent } from './app.component';
 import { LocalePopupComponent } from './locale-popup/locale-popup.component';
+import { ModuleDesignerComponent } from './module-designer/module-designer.component';
+import { FieldPopupComponent } from './field-popup/field-popup.component';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient) {
@@ -28,13 +35,16 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    LocalePopupComponent
+    LocalePopupComponent,
+    ModuleDesignerComponent,
+    FieldPopupComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     FlexLayoutModule,
+    FormsModule,
     NgDragDropModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
@@ -48,10 +58,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatCardModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule,
+    MatSelectModule,
+    MatTooltipModule,
+    MatChipsModule
   ],
   entryComponents: [
-    LocalePopupComponent
+    LocalePopupComponent,
+    FieldPopupComponent
   ],
   providers: [],
   bootstrap: [ AppComponent ]

@@ -1,27 +1,3 @@
 /* You can add global styles to this file, and also import other style files */
 @import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import "ng-drag-drop/style.css";
-
-.uitypes-list {
-    ul {
-        list-style: none;
-        padding: 0;
-        margin: 0;
-
-        li {
-            padding: 5px;
-            border: solid 1px rgba(0, 0, 0, 0.39);
-            color: rgba(0, 0, 0, 0.568);
-            margin-bottom: 4px;
-            border-radius: 2px;
-
-            &:hover {
-                background-color: #f0f0f0;
-            }
-        }
-    }
-}
-
-.block {
-    margin: 15px 0;
-}

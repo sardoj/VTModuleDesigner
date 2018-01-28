@@ -1,0 +1,122 @@
+<h2 mat-dialog-title>{{ 'blocksFields.newField' | translate }} <span *ngIf="data.config.isExpertMode">{{ data.uiType.uitype }} -</span> {{ data.uiType.label | translate }}</h2>
+
+<mat-dialog-content>
+  <!-- Default settings -->
+  <h3>{{ 'blocksFields.defaultSettings' | translate }}</h3>
+
+  <div fxLayout="row" fxLayoutWrap>
+    <!-- Name -->
+    <mat-form-field fxFlex="50">
+      <input matInput placeholder="{{ 'blocksFields.fieldName' | translate }}" [(ngModel)]="field.fieldName" maxlength="25" required (ngModelChange)="changeFieldName()">
+    </mat-form-field>
+
+    <!-- Label -->
+    <mat-form-field fxFlex="50" *ngIf="data.config.isExpertMode">
+      <input matInput placeholder="{{ 'blocksFields.fieldLabel' | translate }}" [(ngModel)]="field.fieldLabel" required (ngModelChange)="changeFieldLabel()">
+    </mat-form-field>
+
+    <!-- Label translation -->
+    <mat-form-field fxFlex="50" *ngFor="let locale of data.config.a_locales">
+      <input matInput placeholder="{{ 'blocksFields.labelTranslation' | translate }} ({{ locale.code }})" [(ngModel)]="field.translation[locale.code]" required>
+    </mat-form-field>
+
+    <!-- Table name -->
+    <mat-form-field fxFlex="50" *ngIf="data.config.isExpertMode">
+      <input matInput placeholder="{{ 'blocksFields.tableName' | translate }}" [(ngModel)]="field.tableName" required (ngModelChange)="changeTableName()">
+    </mat-form-field>
+
+    <!-- Column name -->
+    <mat-form-field fxFlex="50" *ngIf="data.config.isExpertMode">
+      <input matInput placeholder="{{ 'blocksFields.columnName' | translate }}" [(ngModel)]="field.columnName" required (ngModelChange)="changeColumnName()">
+    </mat-form-field>
+
+    <!-- Column type -->
+    <mat-form-field fxFlex="50" *ngIf="data.config.isExpertMode">
+      <input matInput placeholder="{{ 'blocksFields.columnType' | translate }}" [(ngModel)]="field.columnType" required>
+    </mat-form-field>
+
+    <!-- Default value -->
+    <mat-form-field fxFlex="50">
+      <input matInput placeholder="{{ 'blocksFields.defaultValue' | translate }}" [(ngModel)]="field.defaultValue">
+    </mat-form-field>
+
+    <!-- Displayed on -->
+    <mat-form-field fxFlex="50" *ngIf="data.config.isExpertMode">
+      <mat-select placeholder="{{ 'blocksFields.displayedOn' | translate }}" [(ngModel)]="field.displayType">
+        <mat-option [value]="1">{{ 'blocksFields.detailViewAndEditView' | translate }}</mat-option>
+        <mat-option [value]="2">{{ 'blocksFields.onlyDetailView' | translate }}</mat-option>
+        <mat-option [value]=3>{{ 'blocksFields.neitherDetailViewNorEditView' | translate }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- Display options -->
+    <div fxFlex="50" fxLayoutAlign="center center">
+      <mat-icon fxFlex="13" [ngClass]="{'not-active': !field.mandatory}" matTooltip="{{ 'blocksFields.mandatory' | translate }}" (click)="field.mandatory = !field.mandatory">warning</mat-icon>
+      <mat-icon fxFlex="13" [ngClass]="{'not-active': !field.listView}" matTooltip="{{ 'blocksFields.listView' | translate }}" (click)="field.listView = !field.listView">list</mat-icon>
+      <mat-icon fxFlex="13" [ngClass]="{'not-active': !field.quickCreate}" matTooltip="{{ 'blocksFields.quickCreate' | translate }}" (click)="field.quickCreate = !field.quickCreate">add_box</mat-icon>
+      <mat-icon fxFlex="13" [ngClass]="{'not-active': !field.massEdit}" matTooltip="{{ 'blocksFields.massEdit' | translate }}" (click)="field.massEdit = !field.massEdit">edit</mat-icon>
+      <mat-icon fxFlex="13" [ngClass]="{'not-active': !field.header}" matTooltip="{{ 'blocksFields.header' | translate }}" (click)="field.header = !field.header">flag</mat-icon>
+      <mat-icon fxFlex="13" [ngClass]="{'not-active': !field.keyField}" matTooltip="{{ 'blocksFields.keyField' | translate }}" (click)="field.keyField = !field.keyField">vpn_key</mat-icon>
+    </div>
+  </div>
+
+  <!-- Advanced settings -->
+  <div *ngIf="data.uiType.advancedSettings">
+    <h3>{{ 'blocksFields.advancedSettings' | translate }}</h3>
+    
+    <div fxLayout="row" fxLayoutWrap>
+      <!-- Auto number -->
+      <mat-form-field fxFlex="50" *ngIf="field.uiType === 4">
+        <input matInput placeholder="{{ 'blocksFields.autoNumberPrefix' | translate }}" [(ngModel)]="field.autoNumberPrefix">
+      </mat-form-field>
+      <mat-form-field fxFlex="50" *ngIf="field.uiType === 4">
+        <input matInput placeholder="{{ 'blocksFields.autoNumberStartSequence' | translate }}" [(ngModel)]="field.autoNumberStartSequence">
+      </mat-form-field>
+      <!-- Number -->
+      <mat-form-field fxFlex="50" *ngIf="field.uiType === 7">
+        <mat-select placeholder="{{ 'blocksFields.numberType' | translate }}" [(ngModel)]="field.numberType">
+          <mat-option value="I">{{ 'blocksFields.numberInteger' | translate }}</mat-option>
+          <mat-option value="N">{{ 'blocksFields.numberDecimal' | translate }}</mat-option>
+          <mat-option value="IN">{{ 'blocksFields.numberIntegerNegative' | translate }}</mat-option>
+          <mat-option value="NN">{{ 'blocksFields.numberDecimalNegative' | translate }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- PickList options -->
+      <mat-form-field fxFlex="100" *ngIf="field.uiType === 15 || field.uiType === 16 || field.uiType === 33">
+        <mat-chip-list #pickListOptions>
+          <mat-chip *ngFor="let option of field.pickListOptions" [removable]="true" (remove)="removePickListOption(option)">
+            {{ option }}
+            <mat-icon matChipRemove>cancel</mat-icon>
+          </mat-chip>
+          <input placeholder="{{ 'blocksFields.pickListOptions' | translate }}"
+                  [matChipInputFor]="pickListOptions"
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="true"
+                  (matChipInputTokenEnd)="addPickListOption($event)" />
+        </mat-chip-list>
+      </mat-form-field>
+      <!-- PickList options translations -->
+      <div fxFlex fxLayout="column" *ngIf="field.uiType === 15 || field.uiType === 16 || field.uiType === 33">
+        <mat-form-field fxFlex *ngFor="let locale of data.config.a_locales">
+          <mat-chip-list #pickListOptionTranslation>
+            <mat-chip *ngFor="let translation of field.pickListOptionsTranslations[locale.code]" [removable]="true" (remove)="removePickListOptionTranslation(translation, locale.code)">
+              {{ translation }}
+              <mat-icon matChipRemove>cancel</mat-icon>
+            </mat-chip>
+            <input placeholder="{{ 'blocksFields.pickListOptionsTranslation' | translate }} ({{ locale.code }})"
+                    [matChipInputFor]="pickListOptionTranslation"
+                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                    [matChipInputAddOnBlur]="true"
+                    (matChipInputTokenEnd)="addPickListOptionTranslation($event, locale.code)" />
+          </mat-chip-list>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button mat-dialog-close>No</button>
+  <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+  <button mat-button [mat-dialog-close]="true">Yes</button>
+</mat-dialog-actions>

@@ -9,6 +9,36 @@
     "blocksFields.addBlock": "Add block",
     "blocksFields.blockLabel": "Block label",
     "blocksFields.blockLabelTranslation": "Translation",
+    "blocksFields.newField": "Create a new field:",
+    "blocksFields.defaultSettings": "Default settings",
+    "blocksFields.advancedSettings": "Advanced settings",
+    "blocksFields.fieldName": "Field name",
+    "blocksFields.fieldLabel": "Label",
+    "blocksFields.tableName": "Table name",
+    "blocksFields.columnName": "Column name",
+    "blocksFields.columnType": "Column type",
+    "blocksFields.labelTranslation": "Label translation",
+    "blocksFields.defaultValue": "Default value",
+    "blocksFields.displayedOn": "Displayed on",
+    "blocksFields.detailViewAndEditView": "DetailView and EditView",
+    "blocksFields.onlyDetailView": "Only DetailView",
+    "blocksFields.neitherDetailViewNorEditView": "Neither DetailView nor EditView",
+    "blocksFields.mandatory": "Mandatory",
+    "blocksFields.listView": "List View",
+    "blocksFields.quickCreate": "Quick Create",
+    "blocksFields.massEdit": "Mass Edit",
+    "blocksFields.header": "Header",
+    "blocksFields.keyField": "Key Field",
+    "blocksFields.autoNumberPrefix": "Auto number Prefix",
+    "blocksFields.autoNumberStartSequence": "Start Sequence",
+    "blocksFields.numberType": "Type of number",
+    "blocksFields.numberInteger": "Integer",
+    "blocksFields.numberDecimal": "Decimal",
+    "blocksFields.numberIntegerNegative": "Integer Negative",
+    "blocksFields.numberDecimalNegative": "Decimal Negative",
+    "blocksFields.pickListOptions": "Options",
+    "blocksFields.pickListOptionsTranslation": "Option translation",
+
 
     "lists.title": "Lists",
 
@@ -28,5 +58,7 @@
     "uitype.textArea": "Textarea",
     "uitype.textAreaSmall": "Textarea small",
     "uitype.boolean": "Boolean",
-    "uitype.amount": "Amount"
+    "uitype.amount": "Amount",
+
+    "locales.title": "Settings: Locales"
 }
