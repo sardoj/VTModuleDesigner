@@ -1,0 +1,10 @@
+{
+  "/api": {
+    "target": "http://vtiger7.ici",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
+    },
+    "changeOrigin": true
+  }
+}
